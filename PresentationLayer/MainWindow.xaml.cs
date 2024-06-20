@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using BusinessServiceLayer;
+using BusinessServiceLayer.DTOs;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,8 +18,17 @@ namespace PresentationLayer;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    private readonly IHotelService _hotelService;
+
+    public MainWindow(IHotelService hotelService)
     {
         InitializeComponent();
+        _hotelService = hotelService;
+    }
+
+    private void getData_Click(object sender, RoutedEventArgs e)
+    {
+        IReadOnlyList<RoomTypeDTO> types = _hotelService.GetRoomTypes();
+        dgTypeList.ItemsSource = types;
     }
 }
