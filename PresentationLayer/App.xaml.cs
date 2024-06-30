@@ -1,9 +1,8 @@
-﻿
-using BusinessServiceLayer;
+﻿using BusinessServiceLayer.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RepositoryLayer;
+using RepositoryLayer.Repositories;
 using RepositoryLayer.Models;
 using System.Windows;
 
@@ -32,6 +31,8 @@ public partial class App : Application
                 services.AddTransient(sp => new ApplicationDbContext(Config.GetConnectionString("DefaultConnection")));
                 services.AddTransient<IHotelRepository, HotelRepository>();
                 services.AddTransient<IHotelService, HotelService>();
+                services.AddTransient<ICustomerRepository, CustomerRepository>();
+                services.AddTransient<ICustomerService, CustomerService>();
             })
             .Build();
     }
