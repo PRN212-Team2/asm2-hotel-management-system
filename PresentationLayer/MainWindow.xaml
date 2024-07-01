@@ -7,6 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid x:Name="MainContent">
+            <Button x:Name="manageCustomer" Padding="20" Click="manageCustomer_Click" Content="Manage Customer" Margin="590,10,10,324" Width="150" Height="70"/>
+            <StackPanel x:Name="mainContent" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="getData" Padding="20" Click="getData_Click" Content="Get Data"/>
+                <DataGrid x:Name="dgTypeList" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" Header="Room Type Id" Binding="{Binding RoomTypeId}"/>
+                        <DataGridTextColumn Width="*" Header="Room Type Name" Binding="{Binding RoomTypeName}"/>
+                        <DataGridTextColumn Width="*" Header="Type Description" Binding="{Binding TypeDescription}"/>
+                        <DataGridTextColumn Width="*" Header="Type Note" Binding="{Binding TypeNote}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Visibility="Collapsed" />
     </Grid>
 </Window>
+
