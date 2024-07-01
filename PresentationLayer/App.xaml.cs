@@ -1,8 +1,10 @@
-﻿
-using BusinessServiceLayer;
+﻿using BusinessServiceLayer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PresentationLayer.Services;
+using PresentationLayer.View;
+using PresentationLayer.ViewModel;
 using RepositoryLayer;
 using RepositoryLayer.Models;
 using System.Windows;
@@ -28,10 +30,18 @@ public partial class App : Application
         AppHost = Host.CreateDefaultBuilder()
             .ConfigureServices((hostContext, services) =>
             {
+                
                 services.AddSingleton<MainWindow>();
                 services.AddTransient(sp => new ApplicationDbContext(Config.GetConnectionString("DefaultConnection")));
                 services.AddTransient<IHotelRepository, HotelRepository>();
                 services.AddTransient<IHotelService, HotelService>();
+                services.AddSingleton<INavigationService, NavigationService>();
+                services.AddSingleton<Func<Type, ViewModelBase>>(provider => viewModelType => 
+                    (ViewModelBase) provider.GetRequiredService(viewModelType));
+                services.AddSingleton<MainViewModel>();
+                services.AddSingleton<ExampleViewModel>();
+                services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
+                => (ViewModelBase) services.GetRequiredService(viewModelType));
             })
             .Build();
     }
