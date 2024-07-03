@@ -1,13 +1,14 @@
-﻿using BusinessServiceLayer;
+﻿using BusinessServiceLayer.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PresentationLayer.Services;
-using PresentationLayer.View;
-using PresentationLayer.ViewModel;
-using RepositoryLayer;
+using RepositoryLayer.Repositories;
 using RepositoryLayer.Models;
+using PresentationLayer.Views;
+using PresentationLayer.Services;
+using PresentationLayer.ViewModels;
 using System.Windows;
+using PresentationLayer.Models;
 
 namespace PresentationLayer;
 
@@ -33,15 +34,23 @@ public partial class App : Application
                 
                 services.AddSingleton<MainWindow>();
                 services.AddTransient(sp => new ApplicationDbContext(Config.GetConnectionString("DefaultConnection")));
-                services.AddTransient<IHotelRepository, HotelRepository>();
-                services.AddTransient<IHotelService, HotelService>();
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(provider => viewModelType => 
                     (ViewModelBase) provider.GetRequiredService(viewModelType));
                 services.AddSingleton<MainViewModel>();
-                services.AddSingleton<ExampleViewModel>();
+                services.AddSingleton<ListCustomersViewModel>();
+                services.AddSingleton<ManageCustomerView>();
+                services.AddSingleton<CreateCustomerViewModel>();
+                services.AddSingleton<UpdateCustomerViewModel>();
+                services.AddSingleton<DeleteCustomerViewModel>();
+                services.AddSingleton<CustomerManager>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
                 => (ViewModelBase) services.GetRequiredService(viewModelType));
+                services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();
+                services.AddTransient<IRoomTypeService, RoomTypeService>();
+                services.AddTransient<ICustomerRepository, CustomerRepository>();
+                services.AddTransient<ICustomerService, CustomerService>();
+                services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             })
             .Build();
     }

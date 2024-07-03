@@ -1,7 +1,8 @@
 ﻿using PresentationLayer.Commands;
 using PresentationLayer.Services;
+using PresentationLayer.Views;
 
-namespace PresentationLayer.ViewModel
+namespace PresentationLayer.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
@@ -17,15 +18,12 @@ namespace PresentationLayer.ViewModel
             }
         }
 
-        public RelayCommand NavigateToExampleViewCommand { get; set; }
+        public RelayCommand NavigateToManageCustomerViewCommand { get; set; }
 
         public MainViewModel(INavigationService navService) 
         {
             _navService = navService;
-            NavigateToExampleViewCommand = new RelayCommand(
-                o => { Navigation.NavigateTo<ExampleViewModel>(); }, 
-                o => true
-            );
+            NavigateToManageCustomerViewCommand = new RelayCommand(o => { Navigation.NavigateTo<ListCustomersViewModel>(); }, o => true);
         }
 
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PresentationLayer.ViewModel
+namespace PresentationLayer.ViewModels
 {
-    public class ExampleViewModel : ViewModelBase
+    public class DeleteCustomerViewModel : ViewModelBase
     {
     }
 }

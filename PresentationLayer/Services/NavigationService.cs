@@ -1,4 +1,4 @@
-﻿using PresentationLayer.ViewModel;
+﻿using PresentationLayer.ViewModels;
 
 namespace PresentationLayer.Services
 {
