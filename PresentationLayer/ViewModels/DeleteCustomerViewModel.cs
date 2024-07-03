@@ -19,12 +19,12 @@ namespace PresentationLayer.ViewModels
         public DeleteCustomerViewModel(ICustomerService customerService) 
         {
             _customerService = customerService;
-            DeleteCustomerCommand = new RelayCommand(DeleteCustomer, o => true);
+            DeleteCustomerCommand = new RelayCommand(async o => await DeleteCustomer(o), o => true);
         }
 
-        private void DeleteCustomer(object obj)
+        private async Task DeleteCustomer(object obj)
         {
-            _customerService.DeleteCustomer(CustomerId); 
+           await _customerService.DeleteCustomerAsync(CustomerId); 
         }
 
     }

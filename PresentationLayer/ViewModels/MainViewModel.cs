@@ -7,6 +7,7 @@ namespace PresentationLayer.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private INavigationService _navService;
+        private readonly ListCustomersViewModel _listCustomersViewModel;
 
         public INavigationService Navigation
         {
@@ -20,12 +21,17 @@ namespace PresentationLayer.ViewModels
 
         public RelayCommand NavigateToManageCustomerViewCommand { get; set; }
 
-        public MainViewModel(INavigationService navService) 
+        public MainViewModel(INavigationService navService, ListCustomersViewModel listCustomersViewModel) 
         {
             _navService = navService;
-            NavigateToManageCustomerViewCommand = new RelayCommand(o => { Navigation.NavigateTo<ListCustomersViewModel>(); }, o => true);
+            _listCustomersViewModel = listCustomersViewModel;
+            NavigateToManageCustomerViewCommand = new RelayCommand(async o => await NavigateToManageCustomerView(o), o => true);
         }
 
-
+        private async Task NavigateToManageCustomerView(object obj)
+        {
+            await _listCustomersViewModel.GetCustomersAsync();
+            Navigation.NavigateTo<ListCustomersViewModel>();
+        }
     }
 }

@@ -27,10 +27,10 @@ namespace PresentationLayer.ViewModels
         {
             _customerService = customerService;
             _mapper = mapper;
-            CreateCustomerCommand = new RelayCommand(CreateCustomer, o => true);
+            CreateCustomerCommand = new RelayCommand(async o => await CreateCustomerAsync(o), o => true);
         }
 
-        private void CreateCustomer(object obj)
+        private async Task CreateCustomerAsync(object obj)
         {
             if (
                 string.IsNullOrWhiteSpace(CustomerFullName) ||
@@ -43,7 +43,7 @@ namespace PresentationLayer.ViewModels
                 return;
             }
             var customerToCreate = _mapper.Map<CreateCustomerViewModel, CustomerToAddOrUpdateDTO>(this);
-            _customerService.CreateCustomer(customerToCreate);
+            await _customerService.CreateCustomerAsync(customerToCreate);
             CustomerCreated?.Invoke(this, EventArgs.Empty);
         }
     }

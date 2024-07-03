@@ -35,10 +35,7 @@ namespace PresentationLayer.ViewModels
             _createCustomerViewModel = createCustomerViewModel;
             _updateCustomerViewModel = updateCustomerViewModel;
             _deleteCustomerViewModel = deleteCustomerViewModel;
-            GetCustomers();
             ShowCreateCustomerWindow = new RelayCommand(ShowCreateWindow, o => true);
-
-            createCustomerViewModel.CustomerCreated += OnCustomerCreated;
         }
 
         private void ShowCreateWindow(object obj)
@@ -47,15 +44,10 @@ namespace PresentationLayer.ViewModels
             createCustomerWin.Show();
         }
 
-        private void OnCustomerCreated(object sender, EventArgs e)
-        {
-            // Update Customers list after successful creation
-            GetCustomers(); // Refresh the list
-        }
 
-        public void GetCustomers()
+        public async Task GetCustomersAsync()
         {
-            var customers = _customerService.GetCustomers();
+            var customers = await _customerService.GetCustomersAsync();
 
             var customerObservable = new ObservableCollection<CustomerDetailsViewModel>();
             foreach( var customer in customers ) 

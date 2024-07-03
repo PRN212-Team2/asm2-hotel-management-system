@@ -5,13 +5,13 @@ namespace BusinessServiceLayer.Services
 {
     public interface ICustomerService
     {
-        IReadOnlyList<CustomerDTO> GetCustomers();
+        Task<IReadOnlyList<CustomerDTO>> GetCustomersAsync();
 
-        CustomerDTO GetCustomerById(int id);
+        Task<CustomerDTO> GetCustomerByIdAsync(int id);
 
-        void CreateCustomer(CustomerToAddOrUpdateDTO customer);
+        Task CreateCustomerAsync(CustomerToAddOrUpdateDTO customer);
 
-        void DeleteCustomer(int id);
-        void UpdateCustomer(CustomerToAddOrUpdateDTO updatedCustomer, int id);
+        Task DeleteCustomerAsync(int id);
+        Task UpdateCustomerAsync(CustomerToAddOrUpdateDTO updatedCustomer, int id);
     }
 }
