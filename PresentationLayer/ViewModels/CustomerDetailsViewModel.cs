@@ -34,15 +34,15 @@ namespace PresentationLayer.ViewModels
         {
             _updateCustomerViewModel = updateCustomerViewModels;
             _deleteCustomerViewModel = deleteCustomerViewModel;
-            ShowUpdateCustomerWindow = new RelayCommand(ShowUpdateWindow, o => true);
+            ShowUpdateCustomerWindow = new RelayCommand(async o => await ShowUpdateWindow(o), o => true);
             ShowDeleteCustomerWindow = new RelayCommand(ShowDeleteWindow, o => true);
         }
 
-        private void ShowUpdateWindow(object customerId)
+        private async Task ShowUpdateWindow(object customerId)
         {
             if (customerId != null)
             {
-                _updateCustomerViewModel.LoadCustomerDetail((int)customerId);
+                await _updateCustomerViewModel.LoadCustomerDetail((int)customerId);
                 updateCustomerWin = new UpdateCustomerPopupView(_updateCustomerViewModel);
                 updateCustomerWin.Show();
             }

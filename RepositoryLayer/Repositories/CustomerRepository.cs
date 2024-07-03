@@ -18,7 +18,7 @@ namespace RepositoryLayer.Repositories
             _context = context;
         }
 
-        public IReadOnlyList<Customer> GetCustomers()
+        public async Task<IReadOnlyList<Customer>> GetCustomersAsync()
         {
             string sql = "select * from Customer";
             SqlConnection connection = _context.GetConnection();
@@ -27,7 +27,7 @@ namespace RepositoryLayer.Repositories
 
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows)
@@ -57,7 +57,7 @@ namespace RepositoryLayer.Repositories
             return customers;
         }
 
-        public void CreateCustomer(Customer customer)
+        public async Task CreateCustomerAsync(Customer customer)
         {
             string sql = "INSERT INTO Customer (CustomerFullName, Telephone, EmailAddress, CustomerBirthday, CustomerStatus, Password) " +
                          "VALUES (@CustomerFullName, @Telephone, @EmailAddress, @CustomerBirthday, @CustomerStatus, @Password);";
@@ -73,7 +73,7 @@ namespace RepositoryLayer.Repositories
 
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace RepositoryLayer.Repositories
             }
         }
 
-        public void DeleteCustomer(int id)
+        public async Task DeleteCustomerAsync(int id)
         {
             string sql = "DELETE FROM Customer WHERE CustomerId = @CustomerId";
             string reseedSql = "DBCC CHECKIDENT ('Customer', RESEED, 1)";
@@ -98,7 +98,7 @@ namespace RepositoryLayer.Repositories
 
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 command.ExecuteNonQuery();
                 reseedCommand.ExecuteNonQuery();
             }
@@ -112,7 +112,7 @@ namespace RepositoryLayer.Repositories
             }
         }
 
-        public void UpdateCustomer(Customer updatedCustomer)
+        public async Task UpdateCustomerAsync(Customer updatedCustomer)
         {
             string sql = "UPDATE Customer SET CustomerFullName = @CustomerFullName, Telephone = @Telephone, EmailAddress = @EmailAddress, " +
                          "CustomerBirthday = @CustomerBirthday, CustomerStatus = @CustomerStatus, Password = @Password " +
@@ -131,7 +131,7 @@ namespace RepositoryLayer.Repositories
 
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -143,7 +143,7 @@ namespace RepositoryLayer.Repositories
                 connection.Close();
             }
         }
-        public Customer GetCustomerById(int id)
+        public async Task<Customer> GetCustomerByIdAsync(int id)
         {
             string sql = "SELECT * FROM Customer WHERE CustomerId = @CustomerId";
             SqlConnection connection = _context.GetConnection();
@@ -153,7 +153,7 @@ namespace RepositoryLayer.Repositories
 
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows && reader.Read())

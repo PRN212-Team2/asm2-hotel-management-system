@@ -30,12 +30,12 @@ namespace PresentationLayer.ViewModels
         {
             _customerService = customerService;
             _mapper = mapper;
-            UpdateCustomerCommand = new RelayCommand(UpdateCustomer, o => true);
+            UpdateCustomerCommand = new RelayCommand(async o => await UpdateCustomerAsync(o), o => true);
         }
 
-        public void LoadCustomerDetail(int id)
+        public async Task LoadCustomerDetail(int id)
         {
-            var customer = _customerService.GetCustomerById(id);
+            var customer = await _customerService.GetCustomerByIdAsync(id);
             CustomerId = customer.CustomerId;
             CustomerFullName = customer.CustomerFullName;
             Telephone = customer.Telephone;
@@ -44,7 +44,7 @@ namespace PresentationLayer.ViewModels
             CustomerStatus = customer.CustomerStatus;
         }
 
-        private void UpdateCustomer(object obj)
+        private async Task UpdateCustomerAsync(object obj)
         {
             if (
                 string.IsNullOrWhiteSpace(CustomerFullName) ||
@@ -58,7 +58,7 @@ namespace PresentationLayer.ViewModels
             }
 
             var customerToUpdate = _mapper.Map<UpdateCustomerViewModel, CustomerToAddOrUpdateDTO>(this);
-            _customerService.UpdateCustomer(customerToUpdate, CustomerId);
+            await _customerService.UpdateCustomerAsync(customerToUpdate, CustomerId);
         }
 
 

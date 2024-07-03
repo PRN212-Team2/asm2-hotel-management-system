@@ -17,15 +17,15 @@ namespace BusinessServiceLayer.Services
             _mapper = mapper;
         }
 
-        public IReadOnlyList<CustomerDTO> GetCustomers()
+        public async Task<IReadOnlyList<CustomerDTO>> GetCustomersAsync()
         {
-            var customers = _customerRepo.GetCustomers();
+            var customers = await _customerRepo.GetCustomersAsync();
             return _mapper.Map<IReadOnlyList<Customer>, IReadOnlyList<CustomerDTO>>(customers);
         }
 
-        public CustomerDTO GetCustomerById(int id)
+        public async Task<CustomerDTO> GetCustomerByIdAsync(int id)
         {
-            Customer customer = _customerRepo.GetCustomerById(id);
+            Customer customer = await _customerRepo.GetCustomerByIdAsync(id);
             if(customer == null) 
             {
                 return null;
@@ -34,21 +34,21 @@ namespace BusinessServiceLayer.Services
             return _mapper.Map<Customer, CustomerDTO>(customer);
         }
 
-        public void CreateCustomer(CustomerToAddOrUpdateDTO customer)
+        public async Task CreateCustomerAsync(CustomerToAddOrUpdateDTO customer)
         {
             if (customer == null) throw new ArgumentNullException(nameof(CustomerToAddOrUpdateDTO));
             Customer customerToAdd = _mapper.Map<CustomerToAddOrUpdateDTO, Customer>(customer);
-            _customerRepo.CreateCustomer(customerToAdd);
+            await _customerRepo.CreateCustomerAsync(customerToAdd);
         }
 
-        public void DeleteCustomer(int id)
+        public async Task DeleteCustomerAsync(int id)
         {
-            if (_customerRepo.GetCustomerById(id) == null) throw new ArgumentNullException($"Customer {id} not found");
-            _customerRepo.DeleteCustomer(id);
+            if (_customerRepo.GetCustomerByIdAsync(id) == null) throw new ArgumentNullException($"Customer {id} not found");
+            await _customerRepo.DeleteCustomerAsync(id);
         }
-        public void UpdateCustomer(CustomerToAddOrUpdateDTO updatedCustomer, int id)
+        public async Task UpdateCustomerAsync(CustomerToAddOrUpdateDTO updatedCustomer, int id)
         {
-            Customer existingCustomer = _customerRepo.GetCustomerById(id);
+            Customer existingCustomer = await _customerRepo.GetCustomerByIdAsync(id);
             if (existingCustomer == null) throw new ArgumentNullException($"Customer {id} not found");
 
             // Update fields only if the new data is not blank or null
@@ -79,7 +79,7 @@ namespace BusinessServiceLayer.Services
                 existingCustomer.Password = updatedCustomer.Password;
             }
 
-            _customerRepo.UpdateCustomer(existingCustomer);
+            await _customerRepo.UpdateCustomerAsync(existingCustomer);
         }   
     }
 }
