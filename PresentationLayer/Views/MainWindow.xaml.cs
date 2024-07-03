@@ -19,9 +19,4 @@ public partial class MainWindow : Window
         _mainViewModel = mainViewModel;
         DataContext = _mainViewModel;
     }
-
-    private void manageCustomer_Click_1(object sender, RoutedEventArgs e)
-    {
-
-    }
 }

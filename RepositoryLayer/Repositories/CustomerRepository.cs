@@ -23,7 +23,7 @@ namespace RepositoryLayer.Repositories
             string sql = "select * from Customer";
             SqlConnection connection = _context.GetConnection();
             SqlCommand command = new SqlCommand(sql, connection);
-            List<Customer> Customers = new List<Customer>();
+            List<Customer> customers = new List<Customer>();
 
             try
             {
@@ -34,7 +34,7 @@ namespace RepositoryLayer.Repositories
                 {
                     while (reader.Read())
                     {
-                        Customers.Add(new Customer()
+                        customers.Add(new Customer()
                         {
                             CustomerId = reader.GetInt32("CustomerId"),
                             CustomerFullName = reader.GetString("CustomerFullName"),
@@ -54,7 +54,7 @@ namespace RepositoryLayer.Repositories
             {
                 connection.Close();
             }
-            return Customers;
+            return customers;
         }
 
         public void CreateCustomer(Customer customer)
@@ -179,8 +179,6 @@ namespace RepositoryLayer.Repositories
             }
             return customer;
         }
-
-
     }
 }
 

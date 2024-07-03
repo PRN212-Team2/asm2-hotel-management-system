@@ -23,7 +23,7 @@
 
         <StackPanel Grid.Column="0">
             <Button Content="Manage Customer" Height="25"
-            Command="{Binding NavigateToManageCustomerViewCommand}" Click="manageCustomer_Click_1"/>
+            Command="{Binding NavigateToManageCustomerViewCommand}"/>
         </StackPanel>
 
         <ContentControl Content="{Binding Navigation.CurrentView}" Grid.Column="1"></ContentControl>

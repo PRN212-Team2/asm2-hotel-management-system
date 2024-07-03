@@ -8,7 +8,6 @@ using PresentationLayer.Views;
 using PresentationLayer.Services;
 using PresentationLayer.ViewModels;
 using System.Windows;
-using PresentationLayer.Models;
 
 namespace PresentationLayer;
 
@@ -43,7 +42,6 @@ public partial class App : Application
                 services.AddSingleton<CreateCustomerViewModel>();
                 services.AddSingleton<UpdateCustomerViewModel>();
                 services.AddSingleton<DeleteCustomerViewModel>();
-                services.AddSingleton<CustomerManager>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
                 => (ViewModelBase) services.GetRequiredService(viewModelType));
                 services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();
