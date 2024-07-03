@@ -1,8 +1,8 @@
 ﻿using RepositoryLayer.Models;
 
-namespace RepositoryLayer
+namespace RepositoryLayer.Repositories
 {
-    public interface IHotelRepository
+    public interface IRoomTypeRepository
     {
         IReadOnlyList<RoomType> GetRoomTypes();
     }

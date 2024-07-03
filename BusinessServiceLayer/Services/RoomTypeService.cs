@@ -1,14 +1,14 @@
 using BusinessServiceLayer.DTOs;
-using RepositoryLayer;
 using RepositoryLayer.Models;
+using RepositoryLayer.Repositories;
 
-namespace BusinessServiceLayer;
+namespace BusinessServiceLayer.Services;
 
-public class HotelService : IHotelService
+public class RoomTypeService : IRoomTypeService
 {
-    private readonly IHotelRepository _hotelRepo;
+    private readonly IRoomTypeRepository _hotelRepo;
 
-    public HotelService(IHotelRepository hotelRepo)
+    public RoomTypeService(IRoomTypeRepository hotelRepo)
     {
         _hotelRepo = hotelRepo;
     }
@@ -16,9 +16,9 @@ public class HotelService : IHotelService
     {
         List<RoomTypeDTO> roomTypes = new List<RoomTypeDTO>();
 
-        foreach(RoomType type in _hotelRepo.GetRoomTypes())
+        foreach (RoomType type in _hotelRepo.GetRoomTypes())
         {
-            RoomTypeDTO roomType = new RoomTypeDTO() 
+            RoomTypeDTO roomType = new RoomTypeDTO()
             {
                 RoomTypeId = type.RoomTypeId,
                 RoomTypeName = type.RoomTypeName,

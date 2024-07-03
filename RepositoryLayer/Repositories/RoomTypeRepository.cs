@@ -2,13 +2,13 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace RepositoryLayer
+namespace RepositoryLayer.Repositories
 {
-    public class HotelRepository : IHotelRepository
+    public class RoomTypeRepository : IRoomTypeRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public HotelRepository(ApplicationDbContext context)
+        public RoomTypeRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -27,7 +27,7 @@ namespace RepositoryLayer
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
 
-                if(reader.HasRows)
+                if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
@@ -45,7 +45,7 @@ namespace RepositoryLayer
             {
                 throw new Exception(ex.Message);
             }
-            finally 
+            finally
             {
                 connection.Close();
             }

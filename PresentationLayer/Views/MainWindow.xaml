@@ -1,0 +1,31 @@
+﻿<Window x:Class="PresentationLayer.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PresentationLayer"
+        xmlns:views="clr-namespace:PresentationLayer.Views"
+        xmlns:viewModels="clr-namespace:PresentationLayer.ViewModels" 
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewModels:ListCustomersViewModel}">
+                <views:ManageCustomerView/>
+            </DataTemplate>
+        </Grid.Resources>
+        
+
+        <StackPanel Grid.Column="0">
+            <Button Content="Manage Customer" Height="25"
+            Command="{Binding NavigateToManageCustomerViewCommand}"/>
+        </StackPanel>
+
+        <ContentControl Content="{Binding Navigation.CurrentView}" Grid.Column="1"></ContentControl>
+    </Grid>
+</Window>

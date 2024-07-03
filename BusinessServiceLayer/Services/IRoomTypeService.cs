@@ -1,8 +1,8 @@
 ﻿using BusinessServiceLayer.DTOs;
 
-namespace BusinessServiceLayer
+namespace BusinessServiceLayer.Services
 {
-    public interface IHotelService
+    public interface IRoomTypeService
     {
         IReadOnlyList<RoomTypeDTO> GetRoomTypes();
     }
