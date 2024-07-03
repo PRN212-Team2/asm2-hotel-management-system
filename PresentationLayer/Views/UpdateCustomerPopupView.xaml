@@ -17,19 +17,19 @@
                 <TextBox x:Name="txtNewCustomerFullName" Margin="5" Text="{Binding CustomerFullName, Mode=TwoWay}"/>
 
                 <TextBlock Text="New Telephone:" Margin="5"/>
-                <TextBox x:Name="txtNewTelephone" Margin="5" Text="{Binding Telephone, Mode=TwoWay}"/>
+                <TextBox Margin="5" Text="{Binding Telephone, Mode=TwoWay}"/>
 
                 <TextBlock Text="New Email Address:" Margin="5"/>
-                <TextBox x:Name="txtNewEmailAddress" Margin="5" Text="{Binding EmailAddress, Mode=TwoWay}"/>
+                <TextBox Margin="5" Text="{Binding EmailAddress, Mode=TwoWay}"/>
 
                 <TextBlock Text="New Birthday:" Margin="5"/>
-                <DatePicker x:Name="dpNewCustomerBirthday" Margin="5" SelectedDate="{Binding CustomerBirthday, Mode=TwoWay}"/>
+                <DatePicker Margin="5" SelectedDate="{Binding CustomerBirthday, Mode=TwoWay}"/>
 
                 <TextBlock Text="New Status:" Margin="5"/>
-                <CheckBox x:Name="chkNewCustomerStatus" Margin="5" IsChecked="{Binding CustomerStatus, Mode=TwoWay}"/>
+                <CheckBox Margin="5" IsChecked="{Binding CustomerStatus, Mode=TwoWay}"/>
 
                 <TextBlock Text="New Password:" Margin="5"/>
-                <TextBox x:Name="txtNewPassword" Margin="5" Text="{Binding Password, Mode=TwoWay}"/>
+                <TextBox Margin="5" Text="{Binding Password, Mode=TwoWay}"/>
             </StackPanel>
         </Grid>
 
@@ -39,7 +39,7 @@
                 <RowDefinition Height="64*"/>
             </Grid.RowDefinitions>
             <Button Content="Close" Click="CloseButton_Click" Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="344,13,0,0" Grid.Row="1" />
-            <Button Content="Update" Click="UpdateButton_Click" Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,13,0,0" Grid.Row="1" />
+            <Button Content="Update" Command="{Binding UpdateCustomerCommand}" Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,13,0,0" Grid.Row="1" />
         </Grid>
 
         <Frame x:Name="popupFrame" NavigationUIVisibility="Hidden"/>

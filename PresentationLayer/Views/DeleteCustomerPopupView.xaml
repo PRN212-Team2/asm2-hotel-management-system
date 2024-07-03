@@ -16,8 +16,8 @@
         </Grid>
     
         <Grid Grid.Row="1">
-            <Button Content="Yes" Click="deleteButton_Click" Margin="10,54,386,37"/>
-            <Button Content="No" Click="closeButton_Click" Margin="386,54,10,37" />
+            <Button Content="Yes" Command="{Binding DeleteCustomerCommand}" Margin="10,54,386,37" Click="Yes_Button_Click"/>
+            <Button Content="No" Margin="386,54,10,37" Click="No_Button_Click" />
         </Grid>
 
     </Grid>

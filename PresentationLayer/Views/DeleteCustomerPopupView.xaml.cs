@@ -1,5 +1,6 @@
 ﻿using BusinessServiceLayer.DTOs;
 using BusinessServiceLayer.Services;
+using PresentationLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,35 +21,23 @@ namespace PresentationLayer.Views
     /// Interaction logic for DeleteCustomerPopup.xaml
     /// </summary>
     public partial class DeleteCustomerPopupView : Window
-    {
-        private readonly ManageCustomerView _manageCustomer;
-        private readonly ICustomerService _customerService;
-        private readonly int id;
-        public DeleteCustomerPopupView(ICustomerService customerService, ManageCustomerView manageCustomer, int id)
+    { 
+        private readonly DeleteCustomerViewModel _deleteCustomerViewModel;
+
+        public DeleteCustomerPopupView(DeleteCustomerViewModel deleteCustomerViewModel)
         {
             InitializeComponent();
-            _customerService = customerService;
-            _manageCustomer = manageCustomer;
-            this.id = id;
-            DataContext = this;
+            _deleteCustomerViewModel = deleteCustomerViewModel;
+            DataContext = _deleteCustomerViewModel;
         }
 
-        public void deleteButton_Click(object sender, RoutedEventArgs e)
+        private void No_Button_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                _customerService.DeleteCustomer(id);
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error when deleting a customer");
-            }
+            this.Close();
         }
 
-        public void closeButton_Click(object sender, RoutedEventArgs e)
+        private void Yes_Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(id.ToString());
             this.Close();
         }
     }

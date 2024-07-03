@@ -11,6 +11,7 @@ namespace PresentationLayer.Helpers
             CreateMap<Customer, CustomerDTO>();
             CreateMap<CustomerToAddOrUpdateDTO, Customer>();
             CreateMap<CreateCustomerViewModel, CustomerToAddOrUpdateDTO>();
+            CreateMap<UpdateCustomerViewModel, CustomerToAddOrUpdateDTO>();
         }
     }
 }

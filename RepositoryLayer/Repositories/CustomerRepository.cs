@@ -126,6 +126,8 @@ namespace RepositoryLayer.Repositories
             command.Parameters.AddWithValue("@CustomerBirthday", updatedCustomer.CustomerBirthday);
             command.Parameters.AddWithValue("@CustomerStatus", updatedCustomer.CustomerStatus);
             command.Parameters.AddWithValue("@CustomerId", updatedCustomer.CustomerId);
+            command.Parameters.AddWithValue("@Password", updatedCustomer.Password);
+
 
             try
             {
@@ -163,7 +165,7 @@ namespace RepositoryLayer.Repositories
                         Telephone = reader.GetString("Telephone"),
                         EmailAddress = reader.GetString("EmailAddress"),
                         CustomerBirthday = reader.GetDateTime("CustomerBirthday"),
-                        CustomerStatus = reader.GetBoolean("CustomerStatus"),
+                        CustomerStatus = reader.GetByte("CustomerStatus") != 0,
                     };
                 }
             }

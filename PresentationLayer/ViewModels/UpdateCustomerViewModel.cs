@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessServiceLayer.DTOs;
 using BusinessServiceLayer.Services;
 using PresentationLayer.Commands;
 using System;
@@ -22,24 +23,28 @@ namespace PresentationLayer.ViewModels
         public string Telephone { get; set; }
         public string EmailAddress { get; set; }
         public DateTime CustomerBirthday { get; set; }
+        public bool CustomerStatus { get; set; }
         public string Password { get; set; }
 
         public UpdateCustomerViewModel(ICustomerService customerService, IMapper mapper) 
         {
             _customerService = customerService;
             _mapper = mapper;
+            UpdateCustomerCommand = new RelayCommand(UpdateCustomer, o => true);
         }
 
         public void LoadCustomerDetail(int id)
         {
             var customer = _customerService.GetCustomerById(id);
+            CustomerId = customer.CustomerId;
             CustomerFullName = customer.CustomerFullName;
             Telephone = customer.Telephone;
             EmailAddress = customer.EmailAddress;
             CustomerBirthday = customer.CustomerBirthday;
+            CustomerStatus = customer.CustomerStatus;
         }
 
-        private void CreateCustomer(object obj)
+        private void UpdateCustomer(object obj)
         {
             if (
                 string.IsNullOrWhiteSpace(CustomerFullName) ||
@@ -51,7 +56,9 @@ namespace PresentationLayer.ViewModels
                 MessageBox.Show("Please fill in all fields.");
                 return;
             }
-            
+
+            var customerToUpdate = _mapper.Map<UpdateCustomerViewModel, CustomerToAddOrUpdateDTO>(this);
+            _customerService.UpdateCustomer(customerToUpdate, CustomerId);
         }
 
 

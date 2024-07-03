@@ -19,25 +19,24 @@ namespace PresentationLayer.ViewModels
         private readonly ICustomerService _customerService;
         private readonly CreateCustomerViewModel _createCustomerViewModel;
         private readonly UpdateCustomerViewModel _updateCustomerViewModel;
-        private readonly IMapper _mapper;
+        private readonly DeleteCustomerViewModel _deleteCustomerViewModel;
 
-        public ObservableCollection<CustomerDTO> Customers { get; set; }
+        public ObservableCollection<CustomerDetailsViewModel> Customers { get; set; }
 
         public RelayCommand ShowCreateCustomerWindow {  get; set; }
-        public RelayCommand ShowUpdateCustomerWindow { get; set; }
 
 
         public ListCustomersViewModel(ICustomerService customerService, 
             CreateCustomerViewModel createCustomerViewModel,
-            UpdateCustomerViewModel updateCustomerViewModel, IMapper mapper)
+            UpdateCustomerViewModel updateCustomerViewModel,
+            DeleteCustomerViewModel deleteCustomerViewModel)
         {
             _customerService = customerService;
             _createCustomerViewModel = createCustomerViewModel;
             _updateCustomerViewModel = updateCustomerViewModel;
-            _mapper = mapper;
+            _deleteCustomerViewModel = deleteCustomerViewModel;
             GetCustomers();
             ShowCreateCustomerWindow = new RelayCommand(ShowCreateWindow, o => true);
-            ShowUpdateCustomerWindow = new RelayCommand(ShowUpdateWindow, o => true);
 
             createCustomerViewModel.CustomerCreated += OnCustomerCreated;
         }
@@ -54,27 +53,24 @@ namespace PresentationLayer.ViewModels
             GetCustomers(); // Refresh the list
         }
 
-        private void ShowUpdateWindow(object obj)
-        {
-            
-            if(obj != null)
-            {
-                _updateCustomerViewModel.LoadCustomerDetail((int) obj);
-                UpdateCustomerPopupView updateCustomerWin = new UpdateCustomerPopupView(_updateCustomerViewModel);
-                updateCustomerWin.Show();
-            }
-            else
-            {
-                MessageBox.Show("Customer ID not found");
-            }
-            
-        }
-
         public void GetCustomers()
         {
             var customers = _customerService.GetCustomers();
 
-            Customers = new ObservableCollection<CustomerDTO>(customers);
+            var customerObservable = new ObservableCollection<CustomerDetailsViewModel>();
+            foreach( var customer in customers ) 
+            {
+                var customerDetail = new CustomerDetailsViewModel(_updateCustomerViewModel, _deleteCustomerViewModel);
+                customerDetail.CustomerId = customer.CustomerId;
+                customerDetail.CustomerFullName = customer.CustomerFullName;
+                customerDetail.CustomerBirthday = customer.CustomerBirthday;
+                customerDetail.CustomerStatus = customer.CustomerStatus;
+                customerDetail.Telephone = customer.Telephone;
+                customerDetail.EmailAddress = customer.EmailAddress;
+                customerObservable.Add(customerDetail);
+            }
+
+            Customers = customerObservable;
         }
     }
 }

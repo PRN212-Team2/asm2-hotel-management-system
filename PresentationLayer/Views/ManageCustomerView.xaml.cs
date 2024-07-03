@@ -24,44 +24,9 @@ namespace PresentationLayer.Views
     /// </summary>
     public partial class ManageCustomerView : UserControl
     {
-        private readonly ICustomerService _customerService;
-
         public ManageCustomerView()
         {
             InitializeComponent();
-        }
-
-        private void updateCustomerPopup_Click(Object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (sender is Button button && button.CommandParameter is int customerId)
-                {
-                    int id = customerId;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error when attempt to update customer info");
-            }
-        }
-
-        private void deleteCustomerPopup_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (sender is Button button && button.CommandParameter is int customerId)
-                {
-                    int id = customerId;
-                    DeleteCustomerPopupView popup = new DeleteCustomerPopupView(_customerService, this, id);
-                    popup.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error when attempt to delete a customer");
-            }
         }
     }
 }

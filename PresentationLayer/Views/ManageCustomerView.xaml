@@ -36,7 +36,7 @@
                             <GridViewColumn Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Edit" Command="{Binding RelativeSource={RelativeSource AncestorType=viewModels:ListCustomersViewModel}, Path=ShowUpdateCustomerWindow}"
+                                        <Button Content="Edit" Command="{Binding ShowUpdateCustomerWindow}"
                                                 CommandParameter="{Binding CustomerId}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -44,7 +44,8 @@
                             <GridViewColumn Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Delete" Click="deleteCustomerPopup_Click" CommandParameter="{Binding CustomerId}"/>
+                                        <Button Content="Delete" Command="{Binding ShowDeleteCustomerWindow}"
+                                                CommandParameter="{Binding CustomerId}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

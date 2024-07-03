@@ -12,6 +12,7 @@ namespace PresentationLayer.ViewModels
     public class CustomerDetailsViewModel : ViewModelBase
     {
         private readonly UpdateCustomerViewModel _updateCustomerViewModel;
+        private readonly DeleteCustomerViewModel _deleteCustomerViewModel;
 
         public int CustomerId { get; set; }
         public string CustomerFullName { get; set; }
@@ -21,29 +22,48 @@ namespace PresentationLayer.ViewModels
         public bool CustomerStatus { get; set; }
 
         public RelayCommand ShowUpdateCustomerWindow { get; set; }
+        public RelayCommand ShowDeleteCustomerWindow { get; set; }
 
 
-        public CustomerDetailsViewModel(UpdateCustomerViewModel updateCustomerViewModel) 
+        public UpdateCustomerPopupView updateCustomerWin;
+
+        public DeleteCustomerPopupView deleteCustomerWin;
+
+        public CustomerDetailsViewModel(UpdateCustomerViewModel updateCustomerViewModels, 
+            DeleteCustomerViewModel deleteCustomerViewModel) 
         {
-            _updateCustomerViewModel = updateCustomerViewModel;
+            _updateCustomerViewModel = updateCustomerViewModels;
+            _deleteCustomerViewModel = deleteCustomerViewModel;
             ShowUpdateCustomerWindow = new RelayCommand(ShowUpdateWindow, o => true);
-
+            ShowDeleteCustomerWindow = new RelayCommand(ShowDeleteWindow, o => true);
         }
 
-        private void ShowUpdateWindow(object obj)
+        private void ShowUpdateWindow(object customerId)
         {
-
-            if (obj != null)
+            if (customerId != null)
             {
-                _updateCustomerViewModel.LoadCustomerDetail((int)obj);
-                UpdateCustomerPopupView updateCustomerWin = new UpdateCustomerPopupView(_updateCustomerViewModel);
+                _updateCustomerViewModel.LoadCustomerDetail((int)customerId);
+                updateCustomerWin = new UpdateCustomerPopupView(_updateCustomerViewModel);
                 updateCustomerWin.Show();
             }
             else
             {
                 MessageBox.Show("Customer ID not found");
             }
+        }
 
+        private void ShowDeleteWindow(object customerId)
+        {
+            if (customerId != null)
+            {
+                _deleteCustomerViewModel.CustomerId = (int) customerId;
+                deleteCustomerWin = new DeleteCustomerPopupView(_deleteCustomerViewModel);
+                deleteCustomerWin.Show();
+            }
+            else
+            {
+                MessageBox.Show("Customer ID not found");
+            }
         }
     }
 }
