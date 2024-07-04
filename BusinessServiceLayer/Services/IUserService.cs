@@ -9,6 +9,8 @@ namespace BusinessServiceLayer.Services
 {
     public interface IUserService
     {
-        Task<UserDTO> Login(string email, string password);
+        Task<UserDTO> LoginAsync(string email, string password);
+        Task<UserDTO> GetUserByEmailAsync(string email);
+
     }
 }

@@ -16,7 +16,7 @@
             <StackPanel Orientation="Vertical" Margin="10">
                 
                 <TextBlock Text="Full Name:" Margin="5"/>
-                <TextBox Style="{StaticResource {x:Type TextBox}}">
+                <TextBox x:Name="tbFullName">
                     <TextBox.Text>
                         <Binding Path="CustomerFullName" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -27,7 +27,7 @@
                 </TextBox>
 
                 <TextBlock Text="Telephone:" Margin="5"/>
-                <TextBox>
+                <TextBox x:Name="tbTelephone">
                     <TextBox.Text>
                         <Binding Path="Telephone" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -38,7 +38,7 @@
                 </TextBox>
 
                 <TextBlock Text="Email Address:" Margin="5"/>
-                <TextBox>
+                <TextBox x:Name="tbEmailAddress">
                     <TextBox.Text>
                         <Binding Path="EmailAddress" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -49,11 +49,11 @@
                 </TextBox>
                 
 
-                <TextBlock Text="Birthday:" Margin="5"/>
+                <TextBlock x:Name="tbBirthday" Text="Birthday:" Margin="5"/>
                 <DatePicker Text="{Binding CustomerBirthday, Mode=TwoWay}" Margin="10 10 10 15" BorderBrush="DarkGray"/>
 
                 <TextBlock Text="Password:" Margin="5"/>
-                <TextBox>
+                <TextBox x:Name="tbPassword">
                     <TextBox.Text>
                         <Binding Path="Password" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -71,7 +71,23 @@
                 <RowDefinition Height="64*"/>
             </Grid.RowDefinitions>
             <Button Content="Close" Click="CloseButton_Click" Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="344,13,0,0" Grid.Row="1" />
-            <Button Content="Create" Command="{Binding CreateCustomerCommand}" Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,13,0,0" Grid.Row="1" />
+            <Button Content="Create" Command="{Binding CreateCustomerCommand}" 
+                    Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,13,0,0" Grid.Row="1" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=tbFullName, Path=(Validation.HasError)}" Value="True" />
+                                    <Condition Binding="{Binding ElementName=tbTelephone, Path=(Validation.HasError)}" Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
         </Grid>
 
         <Frame x:Name="popupFrame" NavigationUIVisibility="Hidden"/>

@@ -1,0 +1,70 @@
+﻿<Window x:Class="PresentationLayer.Views.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PresentationLayer.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="LoginView" Height="760" Width="450"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{x:Null}"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </Window.Resources>
+    <Window.Visibility>
+        <Binding Path="IsViewVisible" Mode="TwoWay" Converter="{StaticResource BooleanToVisibility}"/>
+    </Window.Visibility>
+    <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25"
+                         materialDesign:ShadowAssist.Darken="True">
+        <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
+            <StackPanel>
+                <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
+                                         PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
+                    <StackPanel>
+                        <StackPanel Margin="16 10 0 6" Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center" Text="Dark Mode" />
+                            <ToggleButton Cursor="Hand" ToolTip="Enable Dark Mode" Margin="12 0 8 0"
+                                          x:Name="themeToggle" IsChecked="{Binding IsDarkTheme}" Click="toggleTheme" />
+                        </StackPanel>
+                        <Button x:Name="btn_exit" ToolTip="Close Application" Content="Exit Application" Click="exitApp"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+
+                <Image Margin="0 60 0 5" Source="../Assets/Logo/HMS_logo.png" Height="100" />
+                <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28"
+                           FontWeight="Bold" Text="Welcome Back!" />
+                <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"
+                           Text="Login to your existing account" />
+                <TextBox Margin="0 50 0 0" x:Name="txtUsername" Width="300" FontSize="18"
+                           materialDesign:HintAssist.Hint="Enter Email" Text="{Binding Email}" BorderThickness="2"
+                           BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <PasswordBox Margin="0 20 0 0" x:Name="txtPassword" Width="300" FontSize="18"
+                           materialDesign:HintAssist.Hint="Enter Password" BorderThickness="2"
+                           BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                         Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
+
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#D75960"
+                           FontSize="15"
+                           FontWeight="Bold"
+                           Margin="50,10,0,0"
+                           TextWrapping="Wrap">
+                    
+                </TextBlock>
+
+                <Button Margin="0 20 0 0" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=txtPassword}" Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                        Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Foreground="White" Content="LOG IN"
+                        materialDesign:ShadowAssist.Darken="True">
+                </Button>
+
+            </StackPanel>
+        </materialDesign:DialogHost>
+    </materialDesign:Card>
+</Window>

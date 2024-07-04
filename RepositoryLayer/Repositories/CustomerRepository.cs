@@ -18,10 +18,10 @@ namespace RepositoryLayer.Repositories
             _context = context;
         }
 
-        public async Task<Customer> Login(string email, string password)
+        public async Task<Customer> LoginAsync(string email, string password)
         {
             string sql = "SELECT * FROM Customer " +
-                         "WHERE CustomerEmail = @CustomerEmail " +
+                         "WHERE EmailAddress = @CustomerEmail " +
                          "AND Password = @Password " +
                          "AND CustomerStatus = @CustomerStatus";
             SqlConnection connection = _context.GetConnection();
@@ -58,7 +58,46 @@ namespace RepositoryLayer.Repositories
                 connection.Close();
             }
             return customer;
+        }
 
+        public async Task<Customer> GetCustomerByEmailAsync(string email)
+        {
+            string sql = "SELECT * FROM Customer " +
+                         "WHERE EmailAddress = @CustomerEmail " +
+                         "AND CustomerStatus = @CustomerStatus";
+            SqlConnection connection = _context.GetConnection();
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@CustomerEmail", email);
+            command.Parameters.AddWithValue("@CustomerStatus", 1);
+
+            Customer customer = null;
+
+            try
+            {
+                await connection.OpenAsync();
+                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+                if (reader.HasRows && reader.Read())
+                {
+                    customer = new Customer()
+                    {
+                        CustomerId = reader.GetInt32("CustomerId"),
+                        CustomerFullName = reader.GetString("CustomerFullName"),
+                        Telephone = reader.GetString("Telephone"),
+                        EmailAddress = reader.GetString("EmailAddress"),
+                        CustomerBirthday = reader.GetDateTime("CustomerBirthday")
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return customer;
         }
 
         public async Task<IReadOnlyList<Customer>> GetCustomersAsync()

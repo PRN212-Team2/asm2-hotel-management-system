@@ -16,9 +16,20 @@ namespace BusinessServiceLayer.Services
             _customerRepository = customerRepository;
             _mapper = mapper;
         }
-        public async Task<UserDTO> Login(string email, string password)
+
+        public async Task<UserDTO> GetUserByEmailAsync(string email)
         {
-            var user = await _customerRepository.Login(email, password);
+            var user = await _customerRepository.GetCustomerByEmailAsync(email);
+            if (user == null)
+            {
+                return null;
+            }
+            return _mapper.Map<Customer, UserDTO>(user);
+        }
+
+        public async Task<UserDTO> LoginAsync(string email, string password)
+        {
+            var user = await _customerRepository.LoginAsync(email, password);
             if(user == null)
             {
                 return null;
