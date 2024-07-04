@@ -18,9 +18,52 @@ namespace RepositoryLayer.Repositories
             _context = context;
         }
 
+        public async Task<Customer> Login(string email, string password)
+        {
+            string sql = "SELECT * FROM Customer " +
+                         "WHERE CustomerEmail = @CustomerEmail " +
+                         "AND Password = @Password " +
+                         "AND CustomerStatus = @CustomerStatus";
+            SqlConnection connection = _context.GetConnection();
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@CustomerEmail", email);
+            command.Parameters.AddWithValue("@Password", password);
+            command.Parameters.AddWithValue("@CustomerStatus", 1);
+
+            Customer customer = null;
+
+            try
+            {
+                await connection.OpenAsync();
+                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+                if (reader.HasRows && reader.Read())
+                {
+                    customer = new Customer()
+                    {
+                        CustomerId = reader.GetInt32("CustomerId"),
+                        CustomerFullName = reader.GetString("CustomerFullName"),
+                        Telephone = reader.GetString("Telephone"),
+                        EmailAddress = reader.GetString("EmailAddress"),
+                        CustomerBirthday = reader.GetDateTime("CustomerBirthday")
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return customer;
+
+        }
+
         public async Task<IReadOnlyList<Customer>> GetCustomersAsync()
         {
-            string sql = "select * from Customer";
+            string sql = "SELECT * FROM Customer";
             SqlConnection connection = _context.GetConnection();
             SqlCommand command = new SqlCommand(sql, connection);
             List<Customer> customers = new List<Customer>();
@@ -88,19 +131,18 @@ namespace RepositoryLayer.Repositories
 
         public async Task DeleteCustomerAsync(int id)
         {
-            string sql = "DELETE FROM Customer WHERE CustomerId = @CustomerId";
-            string reseedSql = "DBCC CHECKIDENT ('Customer', RESEED, 1)";
+            string sql = "UPDATE Customer SET CustomerStatus = @CustomerStatus " +
+                         "WHERE CustomerId = @CustomerId";
             SqlConnection connection = _context.GetConnection();
             SqlCommand command = new SqlCommand(sql, connection);
-            SqlCommand reseedCommand = new SqlCommand(reseedSql, connection);
 
+            command.Parameters.AddWithValue("@CustomerStatus", 0);
             command.Parameters.AddWithValue("@CustomerId", id);
 
             try
             {
                 await connection.OpenAsync();
                 command.ExecuteNonQuery();
-                reseedCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {

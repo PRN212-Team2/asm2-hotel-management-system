@@ -48,6 +48,7 @@ public partial class App : Application
                 services.AddTransient<IRoomTypeService, RoomTypeService>();
                 services.AddTransient<ICustomerRepository, CustomerRepository>();
                 services.AddTransient<ICustomerService, CustomerService>();
+                services.AddTransient<IUserService, UserService>();
                 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             })
             .Build();

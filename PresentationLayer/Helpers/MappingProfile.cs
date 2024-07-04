@@ -12,6 +12,11 @@ namespace PresentationLayer.Helpers
             CreateMap<CustomerToAddOrUpdateDTO, Customer>();
             CreateMap<CreateCustomerViewModel, CustomerToAddOrUpdateDTO>();
             CreateMap<UpdateCustomerViewModel, CustomerToAddOrUpdateDTO>();
+            CreateMap<Customer, UserDTO>()
+                .ForMember(d => d.FullName, o => o.MapFrom(s => s.CustomerFullName))
+                .ForMember(d => d.Birthday, o => o.MapFrom(s => s.CustomerBirthday));
+;
+
         }
     }
 }
