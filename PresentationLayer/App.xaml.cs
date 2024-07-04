@@ -32,6 +32,7 @@ public partial class App : Application
             {
                 
                 services.AddSingleton<MainWindow>();
+                services.AddSingleton<LoginView>();
                 services.AddTransient(sp => new ApplicationDbContext(Config.GetConnectionString("DefaultConnection")));
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(provider => viewModelType => 
@@ -42,12 +43,14 @@ public partial class App : Application
                 services.AddSingleton<CreateCustomerViewModel>();
                 services.AddSingleton<UpdateCustomerViewModel>();
                 services.AddSingleton<DeleteCustomerViewModel>();
+                services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
                 => (ViewModelBase) services.GetRequiredService(viewModelType));
                 services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();
                 services.AddTransient<IRoomTypeService, RoomTypeService>();
                 services.AddTransient<ICustomerRepository, CustomerRepository>();
                 services.AddTransient<ICustomerService, CustomerService>();
+                services.AddTransient<IUserService, UserService>();
                 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             })
             .Build();
@@ -56,8 +59,17 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs eventArgs)
     {
         await AppHost!.StartAsync();
-        var startupForm = AppHost.Services.GetRequiredService<MainWindow>();
-        startupForm.Show();
+        var loginView = AppHost.Services.GetRequiredService<LoginView>();
+        loginView.Show();
+        loginView.IsVisibleChanged += (s, ev) =>
+        {
+            if (loginView.IsVisible == false && loginView.IsLoaded)
+            {
+                var mainView = AppHost.Services.GetRequiredService<MainWindow>();
+                mainView.Show();
+                loginView.Close();
+            }
+        };
 
         base.OnStartup(eventArgs);
     }

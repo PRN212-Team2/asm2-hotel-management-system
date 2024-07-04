@@ -4,6 +4,7 @@ using BusinessServiceLayer.Services;
 using PresentationLayer.Commands;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,16 +22,17 @@ namespace PresentationLayer.ViewModels
         public string Telephone { get; set; }
         public string EmailAddress { get; set; }
         public DateTime CustomerBirthday { get; set; }
+        public bool CustomerStatus { get; set; } = true;
         public string Password { get; set; }
 
         public CreateCustomerViewModel(ICustomerService customerService, IMapper mapper)
         {
             _customerService = customerService;
             _mapper = mapper;
-            CreateCustomerCommand = new RelayCommand(async o => await CreateCustomerAsync(o), o => true);
+            CreateCustomerCommand = new RelayCommand(async o => await CreateCustomerAsync(o), CanExecuteCreateCustomerCommand);
         }
 
-        private async Task CreateCustomerAsync(object obj)
+        private bool CanExecuteCreateCustomerCommand(object obj)
         {
             if (
                 string.IsNullOrWhiteSpace(CustomerFullName) ||
@@ -39,9 +41,13 @@ namespace PresentationLayer.ViewModels
                 !DateTime.TryParse(CustomerBirthday.ToString(), out DateTime parsedBirthday) ||
                 string.IsNullOrWhiteSpace(Password))
             {
-                MessageBox.Show("Please fill in all fields.");
-                return;
+                return false;
             }
+            return true;
+        }
+
+        private async Task CreateCustomerAsync(object obj)
+        {
             var customerToCreate = _mapper.Map<CreateCustomerViewModel, CustomerToAddOrUpdateDTO>(this);
             await _customerService.CreateCustomerAsync(customerToCreate);
             CustomerCreated?.Invoke(this, EventArgs.Empty);

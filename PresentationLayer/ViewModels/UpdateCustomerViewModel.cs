@@ -30,7 +30,7 @@ namespace PresentationLayer.ViewModels
         {
             _customerService = customerService;
             _mapper = mapper;
-            UpdateCustomerCommand = new RelayCommand(async o => await UpdateCustomerAsync(o), o => true);
+            UpdateCustomerCommand = new RelayCommand(async o => await UpdateCustomerAsync(o), CanExecuteUpdateCustomerCommand);
         }
 
         public async Task LoadCustomerDetail(int id)
@@ -44,7 +44,7 @@ namespace PresentationLayer.ViewModels
             CustomerStatus = customer.CustomerStatus;
         }
 
-        private async Task UpdateCustomerAsync(object obj)
+        private bool CanExecuteUpdateCustomerCommand(object obj)
         {
             if (
                 string.IsNullOrWhiteSpace(CustomerFullName) ||
@@ -53,10 +53,13 @@ namespace PresentationLayer.ViewModels
                 !DateTime.TryParse(CustomerBirthday.ToString(), out DateTime parsedBirthday) ||
                 string.IsNullOrWhiteSpace(Password))
             {
-                MessageBox.Show("Please fill in all fields.");
-                return;
+                return false;
             }
+            return true;
+        }
 
+        private async Task UpdateCustomerAsync(object obj)
+        {
             var customerToUpdate = _mapper.Map<UpdateCustomerViewModel, CustomerToAddOrUpdateDTO>(this);
             await _customerService.UpdateCustomerAsync(customerToUpdate, CustomerId);
         }
