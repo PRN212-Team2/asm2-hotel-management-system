@@ -12,6 +12,7 @@ namespace PresentationLayer.ViewModels
     {
         private INavigationService _navService;
         private readonly ListCustomersViewModel _listCustomersViewModel;
+        private readonly ListBookingReservationHistoryViewModel _listBookingReservationHistoryViewModel;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
@@ -29,22 +30,34 @@ namespace PresentationLayer.ViewModels
 
         public RelayCommand NavigateToManageCustomerViewCommand { get; set; }
 
+        public RelayCommand NavigateToListBookingReservationHistoyrViewCommand { get; set; }
+
         public MainViewModel(INavigationService navService, 
-            ListCustomersViewModel listCustomersViewModel, 
+            ListCustomersViewModel listCustomersViewModel,
+            ListBookingReservationHistoryViewModel listBookingReservationHistoryViewModel,
             IUserService userService,
             IMapper mapper) 
         {
             _navService = navService;
             _listCustomersViewModel = listCustomersViewModel;
+            _listBookingReservationHistoryViewModel = listBookingReservationHistoryViewModel;
             _userService = userService;
             _mapper = mapper;
             NavigateToManageCustomerViewCommand = new RelayCommand(async o => await NavigateToManageCustomerView(o), o => true);
+            NavigateToListBookingReservationHistoyrViewCommand = new RelayCommand(async o => await NavigateToBookingReservationHistoryView(o), o => true);
         }
 
         private async Task NavigateToManageCustomerView(object obj)
         {
             await _listCustomersViewModel.GetCustomersAsync();
             Navigation.NavigateTo<ListCustomersViewModel>();
+        }
+
+        private async Task NavigateToBookingReservationHistoryView(object obj)
+        {
+            var customerId = CurrentUser.Id;
+            await _listBookingReservationHistoryViewModel.GetBookingReservationsAsync(customerId);
+            Navigation.NavigateTo<ListBookingReservationHistoryViewModel>();
         }
 
         public async Task LoadCurrentUser()

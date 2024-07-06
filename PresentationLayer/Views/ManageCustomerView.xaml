@@ -4,17 +4,31 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PresentationLayer"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Background="White"
+      d:DesignHeight="480" d:DesignWidth="800"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      Background="{DynamicResource MaterialDesignPaper}"
       >
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="350"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="400"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
+            <Button Content="Create a Customer" Command="{Binding ShowCreateCustomerWindow}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="153" Height="30" Margin="0 0 20 0" RenderTransformOrigin="0.525,-0.103"/>
+        </Grid>
+        <Grid Grid.Row="0">
+            <TextBox Name="FilterTextBox" Width="200" Margin="20 0 0 0" 
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     VerticalAlignment="Center" HorizontalAlignment="Left"
+                     materialDesign:HintAssist.Hint="Search By Name, Phone, Email" BorderThickness="2"
+                     BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}">
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="1">
             <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
                 <ListView Name="CustomerList" ItemsSource="{Binding Customers}">
                     <ListView.View>
@@ -51,9 +65,6 @@
                     </ListView.View>
                 </ListView>
             </StackPanel>
-        </Grid>
-        <Grid Grid.Row="1">
-            <Button Content="Create a Customer" Command="{Binding ShowCreateCustomerWindow}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="153" Height="50" RenderTransformOrigin="0.525,-0.103"/>
         </Grid>
     </Grid>
 </UserControl>

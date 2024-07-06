@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationLayer"
         xmlns:views="clr-namespace:PresentationLayer.Views"
-        xmlns:viewModels="clr-namespace:PresentationLayer.ViewModels" 
+        xmlns:viewModels="clr-namespace:PresentationLayer.ViewModels"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1200">
+        Title="MainWindow" Height="600" Width="1200"
+        Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -18,12 +20,17 @@
             <DataTemplate DataType="{x:Type viewModels:ListCustomersViewModel}">
                 <views:ManageCustomerView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:ListBookingReservationHistoryViewModel}">
+                <views:ListBookingReservationHistoryView/>
+            </DataTemplate>
         </Grid.Resources>
-        
 
         <StackPanel Grid.Column="0">
-            <Button Content="Manage Customer" Height="25"
+            <Button Content="Manage Customer" Height="25" Margin="0 0 0 10"
             Command="{Binding NavigateToManageCustomerViewCommand}"/>
+            
+            <Button Content="View Booking Reservation History" Height="25"
+            Command="{Binding NavigateToListBookingReservationHistoyrViewCommand}"/>
         </StackPanel>
 
         <ContentControl Content="{Binding Navigation.CurrentView}" Grid.Column="1"></ContentControl>

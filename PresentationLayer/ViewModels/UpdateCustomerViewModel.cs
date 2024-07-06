@@ -15,7 +15,7 @@ namespace PresentationLayer.ViewModels
     {
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
-
+        public event EventHandler CustomerUpdated;
         public RelayCommand UpdateCustomerCommand { get; set; }
 
         public int CustomerId { get; set; }
@@ -62,6 +62,8 @@ namespace PresentationLayer.ViewModels
         {
             var customerToUpdate = _mapper.Map<UpdateCustomerViewModel, CustomerToAddOrUpdateDTO>(this);
             await _customerService.UpdateCustomerAsync(customerToUpdate, CustomerId);
+            MessageBox.Show("Customer Updated Successfully");
+            CustomerUpdated?.Invoke(this, EventArgs.Empty);
         }
 
 

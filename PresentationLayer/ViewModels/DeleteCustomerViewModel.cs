@@ -12,6 +12,8 @@ namespace PresentationLayer.ViewModels
     {
         private readonly ICustomerService _customerService;
 
+        public event EventHandler CustomerDeleted;
+
         public int CustomerId { get; set; }
 
         public RelayCommand DeleteCustomerCommand { get; set; }
@@ -24,7 +26,8 @@ namespace PresentationLayer.ViewModels
 
         private async Task DeleteCustomer(object obj)
         {
-           await _customerService.DeleteCustomerAsync(CustomerId); 
+           await _customerService.DeleteCustomerAsync(CustomerId);
+           CustomerDeleted?.Invoke(this, EventArgs.Empty);
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using RepositoryLayer.Models;
+﻿using RepositoryLayer.Data;
+using RepositoryLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;

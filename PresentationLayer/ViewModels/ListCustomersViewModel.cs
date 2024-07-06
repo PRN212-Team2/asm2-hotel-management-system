@@ -20,11 +20,30 @@ namespace PresentationLayer.ViewModels
         private readonly CreateCustomerViewModel _createCustomerViewModel;
         private readonly UpdateCustomerViewModel _updateCustomerViewModel;
         private readonly DeleteCustomerViewModel _deleteCustomerViewModel;
+        private ObservableCollection<CustomerDetailsViewModel> _customers;
+        public ObservableCollection<CustomerDetailsViewModel> Customers
+        {
+            get => _customers;
+            set
+            {
+                _customers = value;
+                OnPropertyChanged(nameof(Customers));
+            }
+        }
 
-        public ObservableCollection<CustomerDetailsViewModel> Customers { get; set; }
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                FilterCustomers(value);
+            }
+        }
 
         public RelayCommand ShowCreateCustomerWindow {  get; set; }
-
 
         public ListCustomersViewModel(ICustomerService customerService, 
             CreateCustomerViewModel createCustomerViewModel,
@@ -35,7 +54,11 @@ namespace PresentationLayer.ViewModels
             _createCustomerViewModel = createCustomerViewModel;
             _updateCustomerViewModel = updateCustomerViewModel;
             _deleteCustomerViewModel = deleteCustomerViewModel;
+            _createCustomerViewModel.CustomerCreated += OnCustomerCreated;
+            _deleteCustomerViewModel.CustomerDeleted += OnCustomerDeleted;
+            _updateCustomerViewModel.CustomerUpdated += OnCustomerUpdated;
             ShowCreateCustomerWindow = new RelayCommand(ShowCreateWindow, o => true);
+            SearchText = "";
         }
 
         private void ShowCreateWindow(object obj)
@@ -44,6 +67,42 @@ namespace PresentationLayer.ViewModels
             createCustomerWin.Show();
         }
 
+        private async void OnCustomerCreated(object sender, EventArgs e)
+        {
+            await GetCustomersAsync();
+        }
+
+        private async void OnCustomerDeleted(object sender, EventArgs e)
+        {
+            await GetCustomersAsync();
+        }
+
+        private async void OnCustomerUpdated(object sender, EventArgs e)
+        {
+            await GetCustomersAsync();
+        }
+
+        private async void FilterCustomers(string searchText)
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                await GetCustomersAsync();
+            }
+            else
+            {
+                searchText = searchText.ToLowerInvariant(); // Ensure case-insensitive search
+
+                await GetCustomersAsync();
+
+                Customers = new ObservableCollection<CustomerDetailsViewModel>(
+                    Customers.Where(c =>
+                        c.CustomerFullName.ToLowerInvariant().Contains(searchText) ||
+                        c.Telephone.ToLowerInvariant().Contains(searchText) ||
+                        c.EmailAddress.ToLowerInvariant().Contains(searchText)
+                    )
+                );
+            }
+        }
 
         public async Task GetCustomersAsync()
         {
