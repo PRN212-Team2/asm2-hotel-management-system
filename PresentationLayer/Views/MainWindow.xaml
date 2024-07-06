@@ -8,13 +8,21 @@
         xmlns:viewModels="clr-namespace:PresentationLayer.ViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1200"
+        Title="MainWindow" Height="700" Width="1250"
         Background="{DynamicResource MaterialDesignPaper}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
         <Grid.Resources>
             <DataTemplate DataType="{x:Type viewModels:ListCustomersViewModel}">
@@ -25,14 +33,43 @@
             </DataTemplate>
         </Grid.Resources>
 
-        <StackPanel Grid.Column="0">
-            <Button Content="Manage Customer" Height="25" Margin="0 0 0 10"
-            Command="{Binding NavigateToManageCustomerViewCommand}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+            <Image Source="../Assets/Logo/HMS_logo.png" Height="40" Margin="20 0 10 0" VerticalAlignment="Center"/>
+            <TextBlock Text="HMS"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Foreground="Orange"
+                       FontSize="22"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1">
+            <RadioButton Content="Manage Customer"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding NavigateToManageCustomerViewCommand}"
+                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}"/>
+
+            <RadioButton Content="Manage Room"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}"/>
+
+            <RadioButton Content="Report Statistic"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}"/>
+
+            <RadioButton Content="Make Reservation"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}"/>
+
+            <RadioButton Content="View Profile"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}"/>
             
-            <Button Content="View Booking Reservation History" Height="25"
-            Command="{Binding NavigateToListBookingReservationHistoyrViewCommand}"/>
+            <RadioButton Content="Booking Reservation History"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding NavigateToListBookingReservationHistoyrViewCommand}"
+                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}"/>
         </StackPanel>
 
-        <ContentControl Content="{Binding Navigation.CurrentView}" Grid.Column="1"></ContentControl>
+        <ContentControl Content="{Binding Navigation.CurrentView}" Grid.Column="1" Grid.Row="1"></ContentControl>
     </Grid>
 </Window>

@@ -28,6 +28,28 @@ namespace PresentationLayer.ViewModels
             }
         }
 
+        private bool _isAdmin;
+        private bool _isCustomer;
+
+        public bool IsAdmin 
+        {  
+            get => _isAdmin;
+            set
+            {
+                _isAdmin = value;
+                OnPropertyChanged(nameof(IsAdmin));
+            }
+        }
+        public bool IsCustomer
+        {
+            get => _isCustomer;
+            set
+            {
+                _isCustomer = value;
+                OnPropertyChanged(nameof(IsCustomer));
+            }
+        }
+
         public RelayCommand NavigateToManageCustomerViewCommand { get; set; }
 
         public RelayCommand NavigateToListBookingReservationHistoyrViewCommand { get; set; }
@@ -68,6 +90,7 @@ namespace PresentationLayer.ViewModels
                 CurrentUser = new UserAccountModel();
                 CurrentUser.EmailAddress = Thread.CurrentPrincipal.Identity.Name;
                 CurrentUser.Role = UserRole.Admin;
+                
             }
             else if (Thread.CurrentPrincipal
                     .IsInRole(UserRole.Customer.ToString()))
@@ -77,8 +100,11 @@ namespace PresentationLayer.ViewModels
                 {
                     CurrentUser = _mapper.Map<UserDTO, UserAccountModel>(user);
                     CurrentUser.Role = UserRole.Customer;
+                    IsAdmin = CurrentUser.Role == UserRole.Admin;
                 }
             }
+            IsAdmin = CurrentUser.Role == UserRole.Admin;
+            IsCustomer = CurrentUser.Role == UserRole.Customer;
         }
     }
 }
