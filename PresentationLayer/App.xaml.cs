@@ -44,6 +44,7 @@ public partial class App : Application
                 services.AddSingleton<UpdateCustomerViewModel>();
                 services.AddSingleton<DeleteCustomerViewModel>();
                 services.AddSingleton<ListBookingReservationHistoryViewModel>();
+                services.AddSingleton<CustomerProfileViewModel>();
                 services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
                 => (ViewModelBase) services.GetRequiredService(viewModelType));

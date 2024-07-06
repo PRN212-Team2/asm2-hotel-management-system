@@ -31,6 +31,9 @@
             <DataTemplate DataType="{x:Type viewModels:ListBookingReservationHistoryViewModel}">
                 <views:ListBookingReservationHistoryView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:CustomerProfileViewModel}">
+                <views:CustomerProfileView/>
+            </DataTemplate>
         </Grid.Resources>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
@@ -62,6 +65,7 @@
 
             <RadioButton Content="View Profile"
                          Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding NavigateToCustomerProfileViewCommand}"
                          Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}"/>
             
             <RadioButton Content="Booking Reservation History"

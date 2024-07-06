@@ -73,21 +73,7 @@
             <Button Content="Close" Click="CloseButton_Click" Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="344,13,0,0" Grid.Row="1" />
             <Button Content="Create" Command="{Binding CreateCustomerCommand}" 
                     Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,13,0,0" Grid.Row="1" >
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding ElementName=tbFullName, Path=(Validation.HasError)}" Value="True" />
-                                    <Condition Binding="{Binding ElementName=tbTelephone, Path=(Validation.HasError)}" Value="True" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
             </Button>
-            
         </Grid>
 
         <Frame x:Name="popupFrame" NavigationUIVisibility="Hidden"/>

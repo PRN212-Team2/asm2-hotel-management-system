@@ -24,14 +24,13 @@ namespace PresentationLayer.ValidationRules
                 return new ValidationResult(false, "Password must be at least 4 characters long.");
             }
 
-            bool hasLower = password.Any(c => char.IsLower(c));
             bool hasNumber = password.Any(c => char.IsNumber(c));
             bool hasSpecial = password.Any(c => char.IsSymbol(c) || char.IsPunctuation(c));
 
-            if (!hasLower || !hasNumber || !hasSpecial)
+            if (!hasNumber || !hasSpecial)
             {
                 return new ValidationResult(false,
-                  "Password must contain at least one lowercase letter, one number, and one special character.");
+                  "Password must contain at least one number, and one special character.");
             }
 
             return ValidationResult.ValidResult;
