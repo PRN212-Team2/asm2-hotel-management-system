@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:PresentationLayer.Views"
         xmlns:viewModels="clr-namespace:PresentationLayer.ViewModels" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1200">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
