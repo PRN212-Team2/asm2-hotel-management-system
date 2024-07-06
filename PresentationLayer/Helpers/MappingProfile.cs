@@ -14,10 +14,11 @@ namespace PresentationLayer.Helpers
             CreateMap<CreateCustomerViewModel, CustomerToAddOrUpdateDTO>();
             CreateMap<UpdateCustomerViewModel, CustomerToAddOrUpdateDTO>();
             CreateMap<Customer, UserDTO>()
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.CustomerId))
                 .ForMember(d => d.FullName, o => o.MapFrom(s => s.CustomerFullName))
                 .ForMember(d => d.Birthday, o => o.MapFrom(s => s.CustomerBirthday));
             CreateMap<UserDTO, UserAccountModel>();
-
+            CreateMap<BookingReservation, BookingReservationDTO>();
         }
     }
 }

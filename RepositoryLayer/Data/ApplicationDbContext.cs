@@ -1,12 +1,12 @@
 ﻿using System.Data.SqlClient;
 
-namespace RepositoryLayer.Models
+namespace RepositoryLayer.Data
 {
     public class ApplicationDbContext
     {
         private readonly string _connectionString;
 
-        public ApplicationDbContext(string connectionString) 
+        public ApplicationDbContext(string connectionString)
         {
             _connectionString = connectionString;
         }

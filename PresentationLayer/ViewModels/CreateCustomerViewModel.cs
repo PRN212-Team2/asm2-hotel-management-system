@@ -50,6 +50,7 @@ namespace PresentationLayer.ViewModels
         {
             var customerToCreate = _mapper.Map<CreateCustomerViewModel, CustomerToAddOrUpdateDTO>(this);
             await _customerService.CreateCustomerAsync(customerToCreate);
+            MessageBox.Show("Customer Created Successfully!");
             CustomerCreated?.Invoke(this, EventArgs.Empty);
         }
     }

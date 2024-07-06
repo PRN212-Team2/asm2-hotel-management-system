@@ -3,11 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RepositoryLayer.Repositories;
-using RepositoryLayer.Models;
 using PresentationLayer.Views;
 using PresentationLayer.Services;
 using PresentationLayer.ViewModels;
 using System.Windows;
+using RepositoryLayer.Data;
 
 namespace PresentationLayer;
 
@@ -43,14 +43,17 @@ public partial class App : Application
                 services.AddSingleton<CreateCustomerViewModel>();
                 services.AddSingleton<UpdateCustomerViewModel>();
                 services.AddSingleton<DeleteCustomerViewModel>();
+                services.AddSingleton<ListBookingReservationHistoryViewModel>();
                 services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
                 => (ViewModelBase) services.GetRequiredService(viewModelType));
                 services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();
+                services.AddTransient<IBookingReservationRepository, BookingReservationRepository>();
                 services.AddTransient<IRoomTypeService, RoomTypeService>();
                 services.AddTransient<ICustomerRepository, CustomerRepository>();
                 services.AddTransient<ICustomerService, CustomerService>();
                 services.AddTransient<IUserService, UserService>();
+                services.AddTransient<IBookingReservationService, BookingReservationService>();
                 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             })
             .Build();
