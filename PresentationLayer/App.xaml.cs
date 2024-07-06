@@ -60,10 +60,11 @@ public partial class App : Application
     {
         await AppHost!.StartAsync();
         var loginView = AppHost.Services.GetRequiredService<LoginView>();
+        var loginViewModel = AppHost.Services.GetRequiredService<LoginViewModel>();
         loginView.Show();
         loginView.IsVisibleChanged += (s, ev) =>
         {
-            if (loginView.IsVisible == false && loginView.IsLoaded)
+            if (loginViewModel.IsViewVisible == false && loginView.IsLoaded)
             {
                 var mainView = AppHost.Services.GetRequiredService<MainWindow>();
                 mainView.Show();
