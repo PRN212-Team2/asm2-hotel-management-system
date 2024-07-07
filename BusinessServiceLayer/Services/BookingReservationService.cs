@@ -20,10 +20,19 @@ namespace BusinessServiceLayer.Services
             _bookingReservationRepository = bookingReservationRepository;
             _mapper = mapper;
         }
+
+        public async Task<BookingReservationDetailDTO> GetBookingReservationDetailByIdAsync(int id)
+        {
+            var bookingReservation = await _bookingReservationRepository.GetBookingReservationByIdAsync(id);
+            return _mapper.Map<BookingReservation, BookingReservationDetailDTO>(bookingReservation);
+        }
+
         public async Task<IReadOnlyList<BookingReservationDTO>> GetBookingReservationsByCustomerIdAsync(int customerId)
         {
             var bookingReservations = await _bookingReservationRepository.GetBookingReservationsByCustomerIdAsync(customerId);
             return _mapper.Map<IReadOnlyList<BookingReservation>, IReadOnlyList<BookingReservationDTO>>(bookingReservations);
         }
+
+        
     }
 }

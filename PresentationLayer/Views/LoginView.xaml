@@ -60,7 +60,7 @@
 
                 <Button Margin="0 20 0 0" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=txtPassword}" Style="{StaticResource MaterialDesignFlatMidBgButton}"
                         Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="LOG IN"
-                        materialDesign:ShadowAssist.Darken="True">
+                        materialDesign:ShadowAssist.Darken="True" Foreground="AntiqueWhite">
                 </Button>
 
             </StackPanel>

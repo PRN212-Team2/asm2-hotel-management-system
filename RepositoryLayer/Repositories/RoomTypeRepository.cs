@@ -13,7 +13,7 @@ namespace RepositoryLayer.Repositories
         {
             _context = context;
         }
-        public IReadOnlyList<RoomType> GetRoomTypes()
+        public async Task<IReadOnlyList<RoomType>> GetRoomTypes()
         {
             string sql = "SELECT * FROM RoomType";
 
@@ -25,7 +25,7 @@ namespace RepositoryLayer.Repositories
 
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows)
