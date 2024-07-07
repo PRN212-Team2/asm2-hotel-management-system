@@ -76,6 +76,6 @@
             </Button>
         </Grid>
 
-        <Frame x:Name="popupFrame" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="popupFrame" NavigationUIVisibility="Hidden" Navigated="popupFrame_Navigated"/>
     </Grid>
 </Window>

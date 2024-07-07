@@ -39,6 +39,7 @@ public partial class App : Application
                     (ViewModelBase) provider.GetRequiredService(viewModelType));
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton<ListCustomersViewModel>();
+                services.AddSingleton<ListReportStatisticsViewModel>();
                 services.AddSingleton<ManageCustomerView>();
                 services.AddSingleton<CreateCustomerViewModel>();
                 services.AddSingleton<UpdateCustomerViewModel>();

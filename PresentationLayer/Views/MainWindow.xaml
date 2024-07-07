@@ -33,6 +33,9 @@
             <DataTemplate DataType="{x:Type viewModels:ListBookingReservationHistoryViewModel}">
                 <views:ListBookingReservationHistoryView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:ListReportStatisticsViewModel}">
+                <views:ReportStatisticView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:CustomerProfileViewModel}">
                 <views:CustomerProfileView/>
             </DataTemplate>
@@ -67,6 +70,7 @@
             </RadioButton>
 
             <RadioButton Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding NavigateToReportStatisticViewCommand}"
                          Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="ChartLine" VerticalAlignment="Center" Margin="0 0 10 0"/>

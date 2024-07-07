@@ -20,6 +20,7 @@ namespace PresentationLayer.Helpers
             CreateMap<UserDTO, UserAccountModel>();
             CreateMap<BookingReservation, BookingReservationDTO>();
             CreateMap<CustomerProfileViewModel, CustomerToAddOrUpdateDTO>();
+            CreateMap<BookingReservation, BookingReservationReportStatisticDTO>();
         }
     }
 }

@@ -35,5 +35,10 @@ namespace PresentationLayer.Views
         {
             this.Close();
         }
+
+        private void popupFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+
+        }
     }
 }

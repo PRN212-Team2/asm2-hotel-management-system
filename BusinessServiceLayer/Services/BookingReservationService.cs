@@ -25,5 +25,17 @@ namespace BusinessServiceLayer.Services
             var bookingReservations = await _bookingReservationRepository.GetBookingReservationsByCustomerIdAsync(customerId);
             return _mapper.Map<IReadOnlyList<BookingReservation>, IReadOnlyList<BookingReservationDTO>>(bookingReservations);
         }
+
+        public async Task<IReadOnlyList<BookingReservationReportStatisticDTO>> GetBookingReservationsAsync()
+        {
+            var bookingReservations = await _bookingReservationRepository.GetBookingReservationsAsync();
+            return _mapper.Map<IReadOnlyList<BookingReservation>, IReadOnlyList<BookingReservationReportStatisticDTO>>(bookingReservations);
+        }
+
+        public async Task<IReadOnlyList<BookingReservationReportStatisticDTO>> GetFilteredBookingReservationsAsync(DateTime StartDate, DateTime EndDate)
+        {
+            var bookingReservations = await _bookingReservationRepository.GetFilteredBookingReservationsAsync(StartDate, EndDate);
+            return _mapper.Map<IReadOnlyList<BookingReservation>, IReadOnlyList<BookingReservationReportStatisticDTO>>(bookingReservations);
+        }
     }
 }
