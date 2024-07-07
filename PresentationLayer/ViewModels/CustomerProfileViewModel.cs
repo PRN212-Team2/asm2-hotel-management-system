@@ -2,21 +2,17 @@
 using BusinessServiceLayer.DTOs;
 using BusinessServiceLayer.Services;
 using PresentationLayer.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PresentationLayer.Models;
+using System.Security.Principal;
 using System.Windows;
 
 namespace PresentationLayer.ViewModels
 {
-    public class UpdateCustomerViewModel : ViewModelBase
+    public class CustomerProfileViewModel : ViewModelBase
     {
+        private readonly IUserService _userService;
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
-        public event EventHandler CustomerUpdated;
-        public RelayCommand UpdateCustomerCommand { get; set; }
 
         public int CustomerId { get; set; }
         public string CustomerFullName { get; set; }
@@ -24,26 +20,29 @@ namespace PresentationLayer.ViewModels
         public string EmailAddress { get; set; }
         public DateTime CustomerBirthday { get; set; }
         public bool CustomerStatus { get; set; }
-        public string Password { get; set; }
+        public string Password { get; set; } = "";
 
-        public UpdateCustomerViewModel(ICustomerService customerService, IMapper mapper) 
+        public RelayCommand UpdateCustomerCommand { get; set; }
+
+        public CustomerProfileViewModel(IUserService userService, ICustomerService customerService, IMapper mapper)
         {
+            _userService = userService;
             _customerService = customerService;
             _mapper = mapper;
             UpdateCustomerCommand = new RelayCommand(async o => await UpdateCustomerAsync(o), CanExecuteUpdateCustomerCommand);
         }
 
-        public async Task LoadCustomerDetail(int id)
+        public async Task loadProfileFromCurrentUser(string email)
         {
-            var customer = await _customerService.GetCustomerByIdAsync(id);
-            if (customer != null)
+            var customer = await _userService.GetUserByEmailAsync(email);
+            if(customer != null) 
             {
-                CustomerId = customer.CustomerId;
-                CustomerFullName = customer.CustomerFullName;
+                CustomerId = customer.Id;
+                CustomerFullName = customer.FullName;
                 Telephone = customer.Telephone;
                 EmailAddress = customer.EmailAddress;
-                CustomerBirthday = customer.CustomerBirthday;
-                CustomerStatus = customer.CustomerStatus;
+                CustomerBirthday = customer.Birthday;
+                CustomerStatus = true;
             }
         }
 
@@ -61,14 +60,12 @@ namespace PresentationLayer.ViewModels
             return true;
         }
 
-        private async Task UpdateCustomerAsync(object obj)
+        public async Task UpdateCustomerAsync(object obj)
         {
-            var customerToUpdate = _mapper.Map<UpdateCustomerViewModel, CustomerToAddOrUpdateDTO>(this);
+            var customerToUpdate = _mapper.Map<CustomerProfileViewModel, CustomerToAddOrUpdateDTO>(this);
             await _customerService.UpdateCustomerAsync(customerToUpdate, CustomerId);
-            MessageBox.Show("Customer Updated Successfully");
-            CustomerUpdated?.Invoke(this, EventArgs.Empty);
+            MessageBox.Show("Profile Updated Successfully");
+            
         }
-
-
     }
 }

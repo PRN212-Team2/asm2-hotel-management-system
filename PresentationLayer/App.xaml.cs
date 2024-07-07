@@ -44,6 +44,7 @@ public partial class App : Application
                 services.AddSingleton<UpdateCustomerViewModel>();
                 services.AddSingleton<DeleteCustomerViewModel>();
                 services.AddSingleton<ListBookingReservationHistoryViewModel>();
+                services.AddSingleton<CustomerProfileViewModel>();
                 services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
                 => (ViewModelBase) services.GetRequiredService(viewModelType));
@@ -64,14 +65,14 @@ public partial class App : Application
         await AppHost!.StartAsync();
         var loginView = AppHost.Services.GetRequiredService<LoginView>();
         var loginViewModel = AppHost.Services.GetRequiredService<LoginViewModel>();
+        var mainViewModel = AppHost.Services.GetService<MainViewModel>();
         loginView.Show();
         loginView.IsVisibleChanged += (s, ev) =>
         {
             if (loginViewModel.IsViewVisible == false && loginView.IsLoaded)
             {
-                var mainView = AppHost.Services.GetRequiredService<MainWindow>();
+                var mainView = new MainWindow(mainViewModel, loginViewModel);
                 mainView.Show();
-                loginView.Close();
             }
         };
 

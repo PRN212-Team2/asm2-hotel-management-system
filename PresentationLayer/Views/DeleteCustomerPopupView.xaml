@@ -5,19 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PresentationLayer"
         mc:Ignorable="d"
-        Title="Deleting Customer" Height="200" Width="500">
+        Title="Deleting Customer" Height="230" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <TextBlock Text="Are you sure you want to delete this Customer ?" FontSize="20" HorizontalAlignment="Center"/>
+            <TextBlock Text="Are you sure you want to delete this Customer ?" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     
         <Grid Grid.Row="1">
-            <Button Content="Yes" Command="{Binding DeleteCustomerCommand}" Margin="10,54,386,37" Click="Yes_Button_Click"/>
-            <Button Content="No" Margin="386,54,10,37" Click="No_Button_Click" />
+            <Button Content="Yes" Command="{Binding DeleteCustomerCommand}" Margin="37,60,355,42" Click="Yes_Button_Click"/>
+            <Button Content="No" Margin="359,60,37,42" Click="No_Button_Click" />
         </Grid>
 
     </Grid>
