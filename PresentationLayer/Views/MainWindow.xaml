@@ -9,7 +9,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1250"
-        Background="{DynamicResource MaterialDesignPaper}">
+        Background="{DynamicResource MaterialDesignPaper}"
+        Closing="Window_Closing">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
     </Window.Resources>
@@ -21,7 +22,8 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.Resources>
@@ -44,35 +46,73 @@
                        Foreground="Orange"
                        FontSize="22"/>
         </StackPanel>
-        
+
         <StackPanel Grid.Row="1">
-            <RadioButton Content="Manage Customer"
-                         Style="{StaticResource MenuButtonTheme}"
+            <RadioButton Style="{StaticResource MenuButtonTheme}"
                          Command="{Binding NavigateToManageCustomerViewCommand}"
-                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}"/>
+                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Human" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                    <TextBlock Text="Manage Room" VerticalAlignment="Center"/>
+                </StackPanel>
+            </RadioButton>
 
-            <RadioButton Content="Manage Room"
-                         Style="{StaticResource MenuButtonTheme}"
-                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}"/>
 
-            <RadioButton Content="Report Statistic"
-                         Style="{StaticResource MenuButtonTheme}"
-                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}"/>
+            <RadioButton Style="{StaticResource MenuButtonTheme}"
+                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="LivingRoom" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                    <TextBlock Text="Manage Room" VerticalAlignment="Center"/>
+                </StackPanel>
+            </RadioButton>
 
-            <RadioButton Content="Make Reservation"
-                         Style="{StaticResource MenuButtonTheme}"
-                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}"/>
+            <RadioButton Style="{StaticResource MenuButtonTheme}"
+                         Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ChartLine" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                    <TextBlock Text="Report Statistic" VerticalAlignment="Center"/>
+                </StackPanel>
+            </RadioButton>
 
-            <RadioButton Content="View Profile"
-                         Style="{StaticResource MenuButtonTheme}"
+            <RadioButton Style="{StaticResource MenuButtonTheme}"
+                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Checkbook" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                    <TextBlock Text="Make Reservation" VerticalAlignment="Center"/>
+                </StackPanel>
+            </RadioButton>
+
+            <RadioButton Style="{StaticResource MenuButtonTheme}"
                          Command="{Binding NavigateToCustomerProfileViewCommand}"
-                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}"/>
-            
-            <RadioButton Content="Booking Reservation History"
-                         Style="{StaticResource MenuButtonTheme}"
-                         Command="{Binding NavigateToListBookingReservationHistoyrViewCommand}"
-                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}"/>
+                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="User" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                    <TextBlock Text="View Profile" VerticalAlignment="Center"/>
+                </StackPanel>
+            </RadioButton>
+
+            <RadioButton Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding NavigateToListBookingReservationHistoryViewCommand}"
+                         Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="History" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                    <TextBlock Text="Booking Reservation History" VerticalAlignment="Center"/>
+                </StackPanel>
+            </RadioButton>
+
+
         </StackPanel>
+
+        <RadioButton Grid.Row="2"
+                     VerticalAlignment="Bottom"
+                     Style="{StaticResource MenuButtonTheme}"
+                     Command="{Binding LogoutCommand}" 
+                     Checked="RadioButton_Checked">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Logout" VerticalAlignment="Center" Margin="0 0 10 0"/>
+                <TextBlock Text="Logout" VerticalAlignment="Center"/>
+            </StackPanel>
+        </RadioButton>
 
         <ContentControl Content="{Binding Navigation.CurrentView}" Grid.Column="1" Grid.Row="1"></ContentControl>
     </Grid>

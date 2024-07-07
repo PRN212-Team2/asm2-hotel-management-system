@@ -53,9 +53,11 @@ namespace PresentationLayer.ViewModels
 
         public RelayCommand NavigateToManageCustomerViewCommand { get; set; }
 
-        public RelayCommand NavigateToListBookingReservationHistoyrViewCommand { get; set; }
+        public RelayCommand NavigateToListBookingReservationHistoryViewCommand { get; set; }
 
         public RelayCommand NavigateToCustomerProfileViewCommand { get; set; }
+
+        public RelayCommand LogoutCommand { get; set; }
 
         public MainViewModel(INavigationService navService, 
             ListCustomersViewModel listCustomersViewModel,
@@ -72,7 +74,7 @@ namespace PresentationLayer.ViewModels
             _mapper = mapper;
             NavigateToManageCustomerViewCommand = new RelayCommand(
                 async o => await NavigateToManageCustomerView(o), o => true);
-            NavigateToListBookingReservationHistoyrViewCommand = new RelayCommand(
+            NavigateToListBookingReservationHistoryViewCommand = new RelayCommand(
                 async o => await NavigateToBookingReservationHistoryView(o), o => true);
             NavigateToCustomerProfileViewCommand = new RelayCommand(
                 async o => await NavigateToCustomerProfileView(o), o => true);
@@ -120,6 +122,11 @@ namespace PresentationLayer.ViewModels
             }
             IsAdmin = CurrentUser.Role == UserRole.Admin;
             IsCustomer = CurrentUser.Role == UserRole.Customer;
+        }
+
+        public void Logout(object obj)
+        {
+            this.CurrentUser = null;
         }
     }
 }
