@@ -5,13 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:views="clr-namespace:PresentationLayer.Views"
+             xmlns:viewModels="clr-namespace:PresentationLayer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
         <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
-            <ListView Name="CustomerList" ItemsSource="{Binding BookingReservations}">
+            <TextBlock Text="BOOKING RESERVATIONS" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 20 0 0"/>
+            <ListView Name="CustomerList" ItemsSource="{Binding BookingReservations}" HorizontalAlignment="Stretch" Width="Auto">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding BookingReservationID}"/>
@@ -21,6 +24,14 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding BookingStatus}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Details" Command="{Binding ShowBookingDetailViewCommand}"
+                                                            CommandParameter="{Binding BookingReservationID}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

@@ -10,5 +10,6 @@ namespace BusinessServiceLayer.Services
     public interface IBookingReservationService
     {
         Task<IReadOnlyList<BookingReservationDTO>> GetBookingReservationsByCustomerIdAsync(int customerId);
+        Task<BookingReservationDetailDTO> GetBookingReservationDetailByIdAsync(int id);
     }
 }
