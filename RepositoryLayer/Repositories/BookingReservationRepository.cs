@@ -3,6 +3,7 @@ using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows.Controls.Primitives;
 
 namespace RepositoryLayer.Repositories
 {
@@ -190,6 +191,62 @@ namespace RepositoryLayer.Repositories
             }
             return bookingReservations;
 
+        }
+
+        public async Task AddBookingReservationAsync(BookingReservation bookingReservation)
+        {
+            string sql = "INSERT INTO BookingReservation (BookingReservationID, BookingDate, TotalPrice, CustomerID, BookingStatus) " +
+                         "VALUES (@BookingReservationID, @BookingDate, @TotalPrice, @CustomerID, @BookingStatus);";
+            SqlConnection connection = _context.GetConnection();
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            command.Parameters.AddWithValue("@BookingReservationID", bookingReservation.BookingReservationID);
+            command.Parameters.AddWithValue("@BookingDate", bookingReservation.BookingDate);
+            command.Parameters.AddWithValue("@TotalPrice", bookingReservation.TotalPrice);
+            command.Parameters.AddWithValue("@CustomerID", bookingReservation.CustomerID);
+            command.Parameters.AddWithValue("@BookingStatus", bookingReservation.BookingStatus);
+
+            try
+            {
+                await connection.OpenAsync();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public async Task<int> GenerateNewIdAsync()
+        {
+            string sql = "SELECT ISNULL(MAX(BookingReservationID), 0) + 1 AS NewID " +
+                         "FROM BookingReservation; ";
+            SqlConnection connection = _context.GetConnection();
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            try
+            {
+                await connection.OpenAsync();
+                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                if (reader.HasRows && reader.Read())
+                {
+                    int newId = reader.GetInt32("NewID");
+                    return newId;
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace RepositoryLayer.Repositories
         {
             _context = context;
         }
-        public async Task<IReadOnlyList<RoomType>> GetRoomTypes()
+        public async Task<IReadOnlyList<RoomType>> GetRoomTypesAsync()
         {
             string sql = "SELECT * FROM RoomType";
 

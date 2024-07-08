@@ -14,11 +14,17 @@ namespace BusinessServiceLayer.Services
     public class BookingReservationService : IBookingReservationService
     {
         private readonly IBookingReservationRepository _bookingReservationRepository;
+        private readonly IBookingDetailRepository _bookingDetailRepository;
+        private readonly IRoomInformationRepository _roomInformationRepository;
         private readonly IMapper _mapper;
 
-        public BookingReservationService(IBookingReservationRepository bookingReservationRepository, IMapper mapper)
+        public BookingReservationService(IBookingReservationRepository bookingReservationRepository,
+            IBookingDetailRepository bookingDetailRepository, IRoomInformationRepository roomInformationRepository,
+            IMapper mapper)
         {
             _bookingReservationRepository = bookingReservationRepository;
+            _bookingDetailRepository = bookingDetailRepository;
+            _roomInformationRepository = roomInformationRepository;
             _mapper = mapper;
         }
 
@@ -44,6 +50,33 @@ namespace BusinessServiceLayer.Services
         {
             var bookingReservations = await _bookingReservationRepository.GetFilteredBookingReservationsAsync(StartDate, EndDate);
             return _mapper.Map<IReadOnlyList<BookingReservation>, IReadOnlyList<BookingReservationReportStatisticDTO>>(bookingReservations);
+        }
+
+        public async Task MakeReservation(int customerId, IReadOnlyList<BasketItemDTO> basketItems)
+        {
+            decimal totalPrice = 0;
+            int revId = await _bookingReservationRepository.GenerateNewIdAsync();
+            List<BookingDetail> bookingDetails = new List<BookingDetail>();
+            
+            foreach(var item in basketItems)
+            {
+                var room = await _roomInformationRepository.GetRoomByIdWithTypeAsync(item.RoomID);
+                int numberOfDays = (item.EndDate - item.StartDate).Days + 1;
+                decimal roomPrice = room.RoomPricePerDay * numberOfDays;
+                totalPrice += roomPrice;
+                var bookingDetail = new BookingDetail(revId, item.RoomID, item.StartDate, item.EndDate, room.RoomPricePerDay);
+                bookingDetails.Add(bookingDetail);
+            }
+
+            var reservation = new BookingReservation(revId, totalPrice, customerId, true);
+
+            await _bookingReservationRepository.AddBookingReservationAsync(reservation);
+
+            foreach (var bookingDetail in bookingDetails)
+            {
+                await _bookingDetailRepository.AddBookingDetailAsync(bookingDetail);
+                
+            }
         }
     }
 }

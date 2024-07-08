@@ -74,7 +74,7 @@ namespace RepositoryLayer.Repositories
                          "LEFT JOIN RoomType b " +
                          "ON a.RoomTypeID = b.RoomTypeID " +
                          "WHERE a.RoomStatus = 1 " +
-                         "AND a.RoomTypeID = @RoomID";
+                         "AND a.RoomID = @RoomID";
             SqlConnection connection = _context.GetConnection();
             SqlCommand command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@RoomID", id);

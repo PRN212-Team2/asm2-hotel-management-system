@@ -50,16 +50,20 @@ public partial class App : Application
                 services.AddSingleton<CustomerProfileViewModel>();
                 services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<BookingReservationDetailViewModel>();
+                services.AddSingleton<MakeReservationViewModel>();
+                services.AddSingleton<RoomInformationDetailsViewModel>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
                 => (ViewModelBase) services.GetRequiredService(viewModelType));
                 services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();
                 services.AddTransient<IBookingReservationRepository, BookingReservationRepository>();
                 services.AddTransient<ICustomerRepository, CustomerRepository>();
                 services.AddTransient<IRoomInformationRepository, RoomInformationRepository>();
+                services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();
                 services.AddTransient<ICustomerService, CustomerService>();
                 services.AddTransient<IUserService, UserService>();
                 services.AddTransient<IBookingReservationService, BookingReservationService>();
-                services.AddTransient<IRoomInformationService, RoomInformationService>();
+                services.AddTransient<IRoomService, RoomService>();
+                services.AddTransient<IBookingDetailRepository, BookingDetailRepository>();
                 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             })
             .Build();

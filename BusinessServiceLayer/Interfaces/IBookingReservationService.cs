@@ -13,5 +13,6 @@ namespace BusinessServiceLayer.Interfaces
         Task<IReadOnlyList<BookingReservationReportStatisticDTO>> GetBookingReservationsAsync();
         Task<IReadOnlyList<BookingReservationReportStatisticDTO>> GetFilteredBookingReservationsAsync(DateTime StartDate, DateTime EndDate);
         Task<BookingReservationDetailDTO> GetBookingReservationDetailByIdAsync(int id);
+        Task MakeReservation(int customerId, IReadOnlyList<BasketItemDTO> basketItems);
     }
 }

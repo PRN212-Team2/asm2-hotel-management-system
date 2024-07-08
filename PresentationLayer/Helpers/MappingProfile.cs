@@ -27,6 +27,8 @@ namespace PresentationLayer.Helpers
                 .ForMember(d => d.TypeNote, o => o.MapFrom(s => s.RoomType.TypeNote));
             CreateMap<BookingDetail, BookingDetailDTO>();
             CreateMap<BookingReservation, BookingReservationDetailDTO>();
+            CreateMap<RoomType, RoomTypeDTO>();
+            CreateMap<BasketItem, BasketItemDTO>();
         }
     }
 }
