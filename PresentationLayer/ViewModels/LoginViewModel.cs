@@ -57,6 +57,7 @@ namespace PresentationLayer.ViewModels
             LoginCommand = new RelayCommand(async o => await LoginAsync(o), CanExecuteLoginCommand);
         }
 
+        // Determine if the user can login
         private bool CanExecuteLoginCommand(object obj)
         {
             if(string.IsNullOrEmpty(Email)) 
@@ -68,6 +69,8 @@ namespace PresentationLayer.ViewModels
 
         private async Task LoginAsync(object obj)
         {
+            // Check if the email and password matches the admin's
+            // email and password in appsettings.json file
             var adminEmail = _configuration["AdminEmail"];
             var adminPassword = _configuration["AdminPassword"];
 
@@ -81,6 +84,7 @@ namespace PresentationLayer.ViewModels
             }
             else
             {
+                // Create a new Principal with the currently authenticated user
                 var user = await _userService.LoginAsync(Email, Password);
                 if (user != null)
                 {

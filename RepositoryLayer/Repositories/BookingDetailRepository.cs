@@ -34,7 +34,7 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {

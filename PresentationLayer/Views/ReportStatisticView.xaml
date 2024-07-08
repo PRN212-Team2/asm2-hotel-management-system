@@ -58,25 +58,27 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
-                <ListView Name="CustomerList" ItemsSource="{Binding ReportStatistics}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding BookingReservationID}"/>
-                            <GridViewColumn Header="Booking Date" Width="Auto" DisplayMemberBinding="{Binding BookingDate, StringFormat=d}"/>
-                            <GridViewColumn Header="TotalPrice" Width="Auto" DisplayMemberBinding="{Binding TotalPrice}"/>
-                            <GridViewColumn Header="Customer ID" Width="Auto" DisplayMemberBinding="{Binding CustomerID}"/>
-                            <GridViewColumn Header="Success" Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding BookingStatus}" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
+                    <ListView Name="CustomerList" ItemsSource="{Binding ReportStatistics}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding BookingReservationID}"/>
+                                <GridViewColumn Header="Booking Date" Width="Auto" DisplayMemberBinding="{Binding BookingDate, StringFormat=d}"/>
+                                <GridViewColumn Header="TotalPrice" Width="Auto" DisplayMemberBinding="{Binding TotalPrice}"/>
+                                <GridViewColumn Header="Customer ID" Width="Auto" DisplayMemberBinding="{Binding CustomerID}"/>
+                                <GridViewColumn Header="Success" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding BookingStatus}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

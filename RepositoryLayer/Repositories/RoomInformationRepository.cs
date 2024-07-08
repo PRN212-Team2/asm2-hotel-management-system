@@ -29,11 +29,11 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         rooms.Add(new RoomInformation()
                         {
@@ -83,9 +83,9 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows && await reader.ReadAsync())
                 {
                     room = new RoomInformation()
                     {

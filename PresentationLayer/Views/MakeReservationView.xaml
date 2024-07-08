@@ -100,7 +100,7 @@
         <Grid Grid.RowSpan="3" Grid.Column="1">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <TextBlock Text="YOUR BASKET" FontSize="20" HorizontalAlignment="Center" Margin="0 20 0 30"/>
+                    <TextBlock Text="YOUR BOOKINGS" FontSize="20" HorizontalAlignment="Center" Margin="0 20 0 30"/>
                     <ItemsControl ItemsSource="{Binding BasketItems}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

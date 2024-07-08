@@ -35,7 +35,7 @@
                     <GridView>
                         <GridViewColumn Header="Room Id" Width="Auto" DisplayMemberBinding="{Binding RoomID}"/>
                         <GridViewColumn Header="Start Date" Width="Auto" DisplayMemberBinding="{Binding StartDate, StringFormat=d}"/>
-                        <GridViewColumn Header="End Date" Width="Auto" DisplayMemberBinding="{Binding StartDate, StringFormat=d}"/>
+                        <GridViewColumn Header="End Date" Width="Auto" DisplayMemberBinding="{Binding EndDate, StringFormat=d}"/>
                         <GridViewColumn Header="Actual Price" Width="Auto" DisplayMemberBinding="{Binding ActualPrice}"/>
                     </GridView>
                 </ListView.View>

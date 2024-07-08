@@ -18,6 +18,8 @@ namespace PresentationLayer.ViewModels
         private readonly IMapper _mapper;
 
         private ObservableCollection<MakeReservationRoomItemViewModel> _rooms;
+
+        // List of room information
         public ObservableCollection<MakeReservationRoomItemViewModel> Rooms
         {
             get => _rooms;
@@ -28,8 +30,10 @@ namespace PresentationLayer.ViewModels
             }
         }
 
+        // Basket Items to temporarily store bookings
         public ObservableCollection<BasketItem> BasketItems { get; set; }
 
+        // Retrieve list of room types for dropdown value
         public ObservableCollection<RoomTypeDTO> RoomTypes { get; set; }
 
         private int? _selectedRoomTypeID;
@@ -81,6 +85,7 @@ namespace PresentationLayer.ViewModels
             RoomTypes = new ObservableCollection<RoomTypeDTO>(roomTypes);
         }
 
+        // Filter room list based on room type id
         private async void FilterRooms(int? selectedTypeId)
         {
             if (!selectedTypeId.HasValue)

@@ -82,6 +82,7 @@ namespace PresentationLayer.ViewModels
             await GetCustomersAsync();
         }
 
+        // Filter based in SearchText property (By Name, Phone, Email)
         private async void FilterCustomers(string searchText)
         {
             if (string.IsNullOrEmpty(searchText))

@@ -32,9 +32,9 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
-                while (reader.Read())
+                while (await reader.ReadAsync())
                 {
                     bookingReservation.BookingReservationID = reader.GetInt32("BookingReservationID");
                     bookingReservation.BookingDate = reader.GetDateTime("BookingDate");
@@ -78,11 +78,11 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         bookingReservations.Add(new BookingReservation()
                         {
@@ -119,11 +119,11 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         bookingReservations.Add(new BookingReservation()
                         {
@@ -164,11 +164,11 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         bookingReservations.Add(new BookingReservation()
                         {
@@ -209,7 +209,7 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
@@ -232,7 +232,7 @@ namespace RepositoryLayer.Repositories
             {
                 await connection.OpenAsync();
                 SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows && await reader.ReadAsync())
                 {
                     int newId = reader.GetInt32("NewID");
                     return newId;
