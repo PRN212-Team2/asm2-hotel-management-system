@@ -20,8 +20,8 @@ namespace PresentationLayer.ViewModels
         private readonly CreateCustomerViewModel _createCustomerViewModel;
         private readonly UpdateCustomerViewModel _updateCustomerViewModel;
         private readonly DeleteCustomerViewModel _deleteCustomerViewModel;
-        private ObservableCollection<CustomerDetailsViewModel> _customers;
-        public ObservableCollection<CustomerDetailsViewModel> Customers
+        private ObservableCollection<CustomerItemsViewModel> _customers;
+        public ObservableCollection<CustomerItemsViewModel> Customers
         {
             get => _customers;
             set
@@ -82,6 +82,7 @@ namespace PresentationLayer.ViewModels
             await GetCustomersAsync();
         }
 
+        // Filter based in SearchText property (By Name, Phone, Email)
         private async void FilterCustomers(string searchText)
         {
             if (string.IsNullOrEmpty(searchText))
@@ -94,7 +95,7 @@ namespace PresentationLayer.ViewModels
 
                 await GetCustomersAsync();
 
-                Customers = new ObservableCollection<CustomerDetailsViewModel>(
+                Customers = new ObservableCollection<CustomerItemsViewModel>(
                     Customers.Where(c =>
                         c.CustomerFullName.ToLowerInvariant().Contains(searchText) ||
                         c.Telephone.ToLowerInvariant().Contains(searchText) ||
@@ -108,10 +109,10 @@ namespace PresentationLayer.ViewModels
         {
             var customers = await _customerService.GetCustomersAsync();
 
-            var customerObservable = new ObservableCollection<CustomerDetailsViewModel>();
+            var customerObservable = new ObservableCollection<CustomerItemsViewModel>();
             foreach( var customer in customers ) 
             {
-                var customerDetail = new CustomerDetailsViewModel(_updateCustomerViewModel, _deleteCustomerViewModel);
+                var customerDetail = new CustomerItemsViewModel(_updateCustomerViewModel, _deleteCustomerViewModel);
                 customerDetail.CustomerId = customer.CustomerId;
                 customerDetail.CustomerFullName = customer.CustomerFullName;
                 customerDetail.CustomerBirthday = customer.CustomerBirthday;

@@ -10,7 +10,7 @@ namespace PresentationLayer.ViewModels
 {
     public class DeleteRoomInformationViewModel
     {
-        private readonly IRoomInformationService _roomInformationService;
+        private readonly IRoomService _roomInformationService;
 
         public event EventHandler RoomInformationDeleted;
 
@@ -18,7 +18,7 @@ namespace PresentationLayer.ViewModels
 
         public RelayCommand DeleteRoomInformationCommand { get; set; }
 
-        public DeleteRoomInformationViewModel(IRoomInformationService roomInformationService)
+        public DeleteRoomInformationViewModel(IRoomService roomInformationService)
         {
             _roomInformationService = roomInformationService;
             DeleteRoomInformationCommand = new RelayCommand(async o => await DeleteRoomInformation(o), o => true);

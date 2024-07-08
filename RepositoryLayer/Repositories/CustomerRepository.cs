@@ -37,9 +37,9 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows && await reader.ReadAsync())
                 {
                     customer = new Customer()
                     {
@@ -77,9 +77,9 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows && await reader.ReadAsync())
                 {
                     customer = new Customer()
                     {
@@ -112,11 +112,11 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         customers.Add(new Customer()
                         {
@@ -158,7 +158,7 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
@@ -183,7 +183,7 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
@@ -215,7 +215,7 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
@@ -237,9 +237,9 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows && await reader.ReadAsync())
                 {
                     customer = new Customer()
                     {

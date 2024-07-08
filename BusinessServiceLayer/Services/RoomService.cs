@@ -11,14 +11,17 @@ using System.Threading.Tasks;
 
 namespace BusinessServiceLayer.Services
 {
-    public class RoomInformationService : IRoomInformationService
+    public class RoomService : IRoomService
     {
         private readonly IRoomInformationRepository _roomInformationRepository;
+        private readonly IRoomTypeRepository _roomTypeRepository;
         private readonly IMapper _mapper;
 
-        public RoomInformationService(IRoomInformationRepository roomInformationRepository, IMapper mapper)
+        public RoomService(IRoomInformationRepository roomInformationRepository, 
+            IRoomTypeRepository roomTypeRepository, IMapper mapper)
         {
             _roomInformationRepository = roomInformationRepository;
+            _roomTypeRepository = roomTypeRepository;
             _mapper = mapper;
         }
 
@@ -98,6 +101,11 @@ namespace BusinessServiceLayer.Services
             }
 
             await _roomInformationRepository.UpdateRoomInformationAsync(existingRoom);
+        }
+        public async Task<IReadOnlyList<RoomTypeDTO>> GetRoomTypesAsync()
+        {
+            var roomTypes = await _roomTypeRepository.GetRoomTypesAsync();
+            return _mapper.Map<IReadOnlyList<RoomType>, IReadOnlyList<RoomTypeDTO>>(roomTypes);
         }
     }
 }

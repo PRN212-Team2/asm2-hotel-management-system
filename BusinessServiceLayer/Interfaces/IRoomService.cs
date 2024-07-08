@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace BusinessServiceLayer.Interfaces
 {
-    public interface IRoomInformationService
+    public interface IRoomService
     {
         Task<IReadOnlyList<RoomInformationDTO>> GetRoomInformationAsync();
         Task<IReadOnlyList<RoomInformationDTO>> GetRoomsWithTypeAsync();
         Task<RoomInformationDTO> GetRoomByIdWithTypeAsync(int id);
+        Task<IReadOnlyList<RoomTypeDTO>> GetRoomTypesAsync();
         Task<RoomInformationDTO> GetRoomInformationByIdAsync(int id);
         Task CreateRoomAsync(RoomInformationToAddOrUpdateDTO room);
         Task DeleteRoomAsync(int id);

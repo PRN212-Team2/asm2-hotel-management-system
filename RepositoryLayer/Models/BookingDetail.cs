@@ -13,5 +13,15 @@ namespace RepositoryLayer.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal ActualPrice { get; set; }
+
+        public BookingDetail() { }
+        public BookingDetail(int bookingReservationID, int roomID, DateTime startDate, DateTime endDate, decimal actualPrice)
+        {
+            BookingReservationID = bookingReservationID;
+            RoomID = roomID;
+            StartDate = startDate;
+            EndDate = endDate;
+            ActualPrice = actualPrice;
+        }
     }
 }

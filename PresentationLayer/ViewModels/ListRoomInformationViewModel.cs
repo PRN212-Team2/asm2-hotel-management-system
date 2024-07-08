@@ -12,7 +12,7 @@ namespace PresentationLayer.ViewModels
 {
     public class ListRoomInformationViewModel : ViewModelBase
     {
-        private readonly IRoomInformationService _roomInformationService;
+        private readonly IRoomService _roomInformationService;
         private readonly CreateRoomInformationViewModel _createroomInformationViewModel;
         private readonly UpdateRoomInformationViewModel _updateroomInformationViewModel;
         private readonly DeleteRoomInformationViewModel _deleteroomInformationViewModel;
@@ -41,7 +41,7 @@ namespace PresentationLayer.ViewModels
 
         public RelayCommand ShowCreateRoomInformationWindow { get; set; }
 
-        public ListRoomInformationViewModel(IRoomInformationService roomInformationService,
+        public ListRoomInformationViewModel(IRoomService roomInformationService,
             CreateRoomInformationViewModel createRoomInformationViewModel,
             UpdateRoomInformationViewModel updateRoomInformationViewModel,
             DeleteRoomInformationViewModel deleteRoomInformationViewModel)
@@ -117,7 +117,7 @@ namespace PresentationLayer.ViewModels
             var roomInformationObservable = new ObservableCollection<RoomInformationDetailsViewModel>();
             foreach (var room in rooms)
             {
-                var roomInformationDetail = new RoomInformationDetailsViewModel(_updateroomInformationViewModel, _deleteroomInformationViewModel);
+                var roomInformationDetail = new RoomInformationDetailsViewModel(_updateroomInformationViewModel, _deleteroomInformationViewModel, _roomInformationService);
                 roomInformationDetail.RoomID = room.RoomID;
                 roomInformationDetail.RoomNumber = room.RoomNumber;
                 roomInformationDetail.RoomDetailDescription = room.RoomDetailDescription;

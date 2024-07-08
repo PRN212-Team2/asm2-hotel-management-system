@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace PresentationLayer.ViewModels
 {
-    public class CustomerDetailsViewModel : ViewModelBase
+    public class CustomerItemsViewModel : ViewModelBase
     {
         private readonly UpdateCustomerViewModel _updateCustomerViewModel;
         private readonly DeleteCustomerViewModel _deleteCustomerViewModel;
@@ -29,7 +29,7 @@ namespace PresentationLayer.ViewModels
 
         public DeleteCustomerPopupView deleteCustomerWin;
 
-        public CustomerDetailsViewModel(UpdateCustomerViewModel updateCustomerViewModels, 
+        public CustomerItemsViewModel(UpdateCustomerViewModel updateCustomerViewModels, 
             DeleteCustomerViewModel deleteCustomerViewModel) 
         {
             _updateCustomerViewModel = updateCustomerViewModels;

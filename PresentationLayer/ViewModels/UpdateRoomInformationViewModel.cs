@@ -13,7 +13,7 @@ namespace PresentationLayer.ViewModels
 {
     public class UpdateRoomInformationViewModel
     {
-        private readonly IRoomInformationService _roomInformationService;
+        private readonly IRoomService _roomInformationService;
         private readonly IMapper _mapper;
         public event EventHandler RoomInformationUpdated;
         public RelayCommand UpdateRoomInformationCommand { get; set; }
@@ -26,7 +26,7 @@ namespace PresentationLayer.ViewModels
         public bool RoomStatus { get; set; }
         public decimal RoomPricePerDay { get; set; }
 
-        public UpdateRoomInformationViewModel(IRoomInformationService roomInformationService, IMapper mapper)
+        public UpdateRoomInformationViewModel(IRoomService roomInformationService, IMapper mapper)
         {
             _roomInformationService = roomInformationService;
             _mapper = mapper;
