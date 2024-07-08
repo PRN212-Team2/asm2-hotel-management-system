@@ -8,6 +8,8 @@ using PresentationLayer.Services;
 using PresentationLayer.ViewModels;
 using System.Windows;
 using RepositoryLayer.Data;
+using RepositoryLayer.Interfaces;
+using BusinessServiceLayer.Interfaces;
 
 namespace PresentationLayer;
 
@@ -52,7 +54,6 @@ public partial class App : Application
                 => (ViewModelBase) services.GetRequiredService(viewModelType));
                 services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();
                 services.AddTransient<IBookingReservationRepository, BookingReservationRepository>();
-                services.AddTransient<IRoomTypeService, RoomTypeService>();
                 services.AddTransient<ICustomerRepository, CustomerRepository>();
                 services.AddTransient<IRoomInformationRepository, RoomInformationRepository>();
                 services.AddTransient<ICustomerService, CustomerService>();

@@ -1,5 +1,5 @@
 ﻿using BusinessServiceLayer.DTOs;
-using BusinessServiceLayer.Services;
+using BusinessServiceLayer.Interfaces;
 using PresentationLayer.Commands;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -94,7 +94,7 @@ namespace PresentationLayer.ViewModels
             return true;
         }
 
-        private async void CalculateRevenue()
+        private void CalculateRevenue()
         {
             if(ReportStatistics != null)
             {

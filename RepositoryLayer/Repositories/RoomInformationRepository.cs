@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Data;
 using RepositoryLayer.Data;
+using RepositoryLayer.Interfaces;
 
 namespace RepositoryLayer.Repositories
 {

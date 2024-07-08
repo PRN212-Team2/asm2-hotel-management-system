@@ -1,7 +1,8 @@
-﻿using RepositoryLayer.Repositories;
-using RepositoryLayer.Models;
+﻿using RepositoryLayer.Models;
 using BusinessServiceLayer.DTOs;
 using AutoMapper;
+using RepositoryLayer.Interfaces;
+using BusinessServiceLayer.Interfaces;
 
 
 namespace BusinessServiceLayer.Services
