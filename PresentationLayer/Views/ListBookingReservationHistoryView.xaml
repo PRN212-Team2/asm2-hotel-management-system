@@ -12,38 +12,40 @@
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
-        <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
-            <TextBlock Text="BOOKING RESERVATIONS" HorizontalAlignment="Center" FontSize="25" Margin="0 20 0 0"/>
-            <ListView Name="CustomerList" ItemsSource="{Binding BookingReservations}" HorizontalAlignment="Stretch" Width="Auto">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding BookingReservationID}"/>
-                        <GridViewColumn Header="Booking Date" Width="Auto" DisplayMemberBinding="{Binding BookingDate, StringFormat=d}"/>
-                        <GridViewColumn Header="TotalPrice" Width="Auto" DisplayMemberBinding="{Binding TotalPrice}"/>
-                        <GridViewColumn Header="Success" Width="Auto">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding BookingStatus}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="Auto">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Command="{Binding ShowBookingDetailViewCommand}"
-                                                            CommandParameter="{Binding BookingReservationID}">
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <materialDesign:PackIcon Kind="Details" VerticalAlignment="Center" 
-                                                                     Foreground="AntiqueWhite" Margin="0 0 10 0"/>
-                                            <TextBlock Text="Details" Foreground="AntiqueWhite"/>
-                                        </StackPanel>
-                                    </Button>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
+                <TextBlock Text="BOOKING RESERVATIONS" HorizontalAlignment="Center" FontSize="25" Margin="0 20 0 0"/>
+                <ListView Name="CustomerList" ItemsSource="{Binding BookingReservations}" HorizontalAlignment="Stretch" Width="Auto">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding BookingReservationID}"/>
+                            <GridViewColumn Header="Booking Date" Width="Auto" DisplayMemberBinding="{Binding BookingDate, StringFormat=d}"/>
+                            <GridViewColumn Header="TotalPrice" Width="Auto" DisplayMemberBinding="{Binding TotalPrice}"/>
+                            <GridViewColumn Header="Success" Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding BookingStatus}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding ShowBookingDetailViewCommand}"
+                                                    CommandParameter="{Binding BookingReservationID}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="Details" VerticalAlignment="Center" 
+                                                             Foreground="AntiqueWhite" Margin="0 0 10 0"/>
+                                                <TextBlock Text="Details" Foreground="AntiqueWhite"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

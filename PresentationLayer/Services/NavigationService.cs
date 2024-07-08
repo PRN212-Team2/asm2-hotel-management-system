@@ -5,6 +5,10 @@ namespace PresentationLayer.Services
     public class NavigationService : ViewModelBase, INavigationService
     {
         private ViewModelBase _currentView;
+
+        /// <summary>
+        /// The current view model that is bound with a view
+        /// </summary>
         public ViewModelBase CurrentView
         {
             get => _currentView;
@@ -20,6 +24,11 @@ namespace PresentationLayer.Services
         {
             _viewModelFactory = viewModelFactory;
         }
+
+        /// <summary>
+        /// Change the current view model.
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
         public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase
         {
             ViewModelBase viewModel = _viewModelFactory.Invoke(typeof(TViewModel));

@@ -8,7 +8,7 @@
         xmlns:viewModels="clr-namespace:PresentationLayer.ViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1250"
+        Title="MainWindow" Height="850" Width="1450"
         Background="{DynamicResource MaterialDesignPaper}"
         Closing="Window_Closing">
     <Window.Resources>
@@ -38,6 +38,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:CustomerProfileViewModel}">
                 <views:CustomerProfileView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:MakeReservationViewModel}">
+                <views:MakeReservationView/>
             </DataTemplate>
         </Grid.Resources>
 
@@ -79,6 +82,7 @@
             </RadioButton>
 
             <RadioButton Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding NavigateToMakeReservationViewCommand}"
                          Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Checkbook" VerticalAlignment="Center" Margin="0 0 10 0"/>

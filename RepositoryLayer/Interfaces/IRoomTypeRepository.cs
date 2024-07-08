@@ -4,6 +4,6 @@ namespace RepositoryLayer.Interfaces
 {
     public interface IRoomTypeRepository
     {
-        Task<IReadOnlyList<RoomType>> GetRoomTypes();
+        Task<IReadOnlyList<RoomType>> GetRoomTypesAsync();
     }
 }

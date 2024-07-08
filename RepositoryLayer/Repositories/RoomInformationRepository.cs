@@ -29,11 +29,11 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         rooms.Add(new RoomInformation()
                         {
@@ -74,7 +74,7 @@ namespace RepositoryLayer.Repositories
                          "LEFT JOIN RoomType b " +
                          "ON a.RoomTypeID = b.RoomTypeID " +
                          "WHERE a.RoomStatus = 1 " +
-                         "AND a.RoomTypeID = @RoomID";
+                         "AND a.RoomID = @RoomID";
             SqlConnection connection = _context.GetConnection();
             SqlCommand command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@RoomID", id);
@@ -83,9 +83,9 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows && await reader.ReadAsync())
                 {
                     room = new RoomInformation()
                     {

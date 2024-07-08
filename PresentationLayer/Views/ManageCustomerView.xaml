@@ -6,19 +6,17 @@
       xmlns:local="clr-namespace:PresentationLayer"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      d:DesignHeight="480" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="800"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-      Background="{DynamicResource MaterialDesignPaper}"
-      >
-
+      Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
-            <RowDefinition Height="400"/>
+            <RowDefinition Height="500"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Button Command="{Binding ShowCreateCustomerWindow}" 
-                    HorizontalAlignment="Right" VerticalAlignment="Center" Width="170" Height="30" Margin="0 0 20 0" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center" Width="170" Height="30" Margin="0 0 50 0" 
                     RenderTransformOrigin="0.525,-0.103">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Create" VerticalAlignment="Center" Margin="0 0 10 0" Foreground="AntiqueWhite"/>
@@ -27,7 +25,7 @@
             </Button>
         </Grid>
         <Grid Grid.Row="0">
-            <TextBox Name="FilterTextBox" Width="200" Margin="20 0 0 0" 
+            <TextBox Name="FilterTextBox" Width="200" Margin="50 0 0 0" 
                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                      VerticalAlignment="Center" HorizontalAlignment="Left"
                      materialDesign:HintAssist.Hint="Search By Name, Phone, Email" BorderThickness="2"
@@ -36,52 +34,54 @@
             </TextBox>
         </Grid>
         <Grid Grid.Row="1">
-            <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
-                <ListView Name="CustomerList" ItemsSource="{Binding Customers}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding CustomerId}"/>
-                            <GridViewColumn Header="Full Name" Width="Auto" DisplayMemberBinding="{Binding CustomerFullName}"/>
-                            <GridViewColumn Header="Telephone" Width="Auto" DisplayMemberBinding="{Binding Telephone}"/>
-                            <GridViewColumn Header="Email" Width="Auto" DisplayMemberBinding="{Binding EmailAddress}"/>
-                            <GridViewColumn Header="Birthday" Width="Auto" DisplayMemberBinding="{Binding CustomerBirthday, StringFormat=d}"/>
-                            <GridViewColumn Header="Activated" Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding CustomerStatus}" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding ShowUpdateCustomerWindow}"
-                                                CommandParameter="{Binding CustomerId}">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"
-                                                                          Foreground="AntiqueWhite"/>
-                                            </StackPanel>
-                                        </Button>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Width="Auto">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding ShowDeleteCustomerWindow}"
-                                                CommandParameter="{Binding CustomerId}">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" 
-                                                                         Foreground="AntiqueWhite"/>
-                                            </StackPanel>
-                                        </Button>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
+                    <ListView Name="CustomerList" ItemsSource="{Binding Customers}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding CustomerId}"/>
+                                <GridViewColumn Header="Full Name" Width="Auto" DisplayMemberBinding="{Binding CustomerFullName}"/>
+                                <GridViewColumn Header="Telephone" Width="Auto" DisplayMemberBinding="{Binding Telephone}"/>
+                                <GridViewColumn Header="Email" Width="Auto" DisplayMemberBinding="{Binding EmailAddress}"/>
+                                <GridViewColumn Header="Birthday" Width="Auto" DisplayMemberBinding="{Binding CustomerBirthday, StringFormat=d}"/>
+                                <GridViewColumn Header="Activated" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding CustomerStatus}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding ShowUpdateCustomerWindow}"
+                                    CommandParameter="{Binding CustomerId}">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"
+                                                              Foreground="AntiqueWhite"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding ShowDeleteCustomerWindow}"
+                                    CommandParameter="{Binding CustomerId}">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" 
+                                                             Foreground="AntiqueWhite"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>
