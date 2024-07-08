@@ -117,6 +117,7 @@ namespace PresentationLayer.ViewModels
         public async Task NavigateToMakeReservationView(object obj)
         {
             _makeReservationViewModel.CustomerID = CurrentUser.Id;
+            await _makeReservationViewModel.GetRoomTypesAsync();
             await _makeReservationViewModel.GetRoomsAsync();
             Navigation.NavigateTo<MakeReservationViewModel>();
         }

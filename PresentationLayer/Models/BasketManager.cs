@@ -24,5 +24,15 @@ namespace PresentationLayer.Models
             BasketItems.Remove(basketItem);
         }
 
+        public static decimal CalculateTotalPrice()
+        {
+            var totalPrice = 0m;
+            foreach(var item in BasketItems)
+            {
+                var numberOfDays = (item.StartDate - item.EndDate).Days;
+                totalPrice += item.Price * numberOfDays;
+            }
+            return totalPrice;
+        }
     }
 }

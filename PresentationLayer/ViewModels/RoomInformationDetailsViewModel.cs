@@ -1,11 +1,6 @@
 ﻿using BusinessServiceLayer.Interfaces;
 using PresentationLayer.Commands;
 using PresentationLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PresentationLayer.ViewModels
@@ -26,12 +21,23 @@ namespace PresentationLayer.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged(nameof(ErrorMessage));
+            }
+        }
+
         public RelayCommand AddToBasketCommand { get; set; }
 
         public RoomInformationDetailsViewModel(IRoomService roomService)
         {
             _roomService = roomService;
-            AddToBasketCommand = new RelayCommand(AddToBasket, o => true);
+            AddToBasketCommand = new RelayCommand(AddToBasket, CanExecuteAddToBasket);
         }
         
         public async Task LoadRoomDetails(int roomId)
@@ -55,6 +61,20 @@ namespace PresentationLayer.ViewModels
                 MessageBox.Show("Room not found!");
             }
             
+        }
+
+        private bool CanExecuteAddToBasket(object obj)
+        {
+            if(StartDate > EndDate)
+            {
+                ErrorMessage = "Start Date cannot be after End Date";
+                return false;
+            }
+            else
+            {
+                ErrorMessage = "";
+                return true;
+            }
         }
 
         private void AddToBasket(object obj)

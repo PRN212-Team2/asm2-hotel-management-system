@@ -6,20 +6,39 @@
              xmlns:local="clr-namespace:PresentationLayer"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1000"
+             d:DesignHeight="700" d:DesignWidth="1000"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="460"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="500"/>
+            <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <ComboBox materialDesign:HintAssist.Hint="Select a Room Type"
+                          materialDesign:TextFieldAssist.DecorationVisibility="Visible"
+                          HorizontalAlignment="Left"
+                          Width="200" Margin="50 0 20 0" Height="50"
+                          ItemsSource="{Binding RoomTypes}"
+                          DisplayMemberPath="RoomTypeName"
+                          SelectedValuePath="RoomTypeID"
+                          SelectedValue="{Binding SelectedTypeID, Mode=TwoWay}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                </ComboBox>
+                <Button HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Height="50"
+                        Command="{Binding ResetFilterCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FilterOff" VerticalAlignment="Center" Margin="0 0 10 0" Foreground="AntiqueWhite"/>
+                        <TextBlock Text="Reset Filter" VerticalAlignment="Center" Foreground="AntiqueWhite"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -130,8 +149,8 @@
             </ScrollViewer>
         </Grid>
         <Grid Grid.Column="0" Grid.Row="2">
-            <Button HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30"
-                     Command="{Binding MakeReservationCommand}">
+            <Button HorizontalAlignment="Center" Width="200" Height="30"
+                     Command="{Binding MakeReservationCommand}" Margin="0 30 0 0">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="BookAdd" VerticalAlignment="Center" Margin="0 0 10 0" Foreground="AntiqueWhite"/>
                     <TextBlock Text="Make Reservation" VerticalAlignment="Center" Foreground="AntiqueWhite"/>

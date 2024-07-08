@@ -82,6 +82,12 @@
                             BorderThickness="2"
                             Text="{Binding EndDate, Mode=TwoWay}">
                 </DatePicker>
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#D75960"
+                           FontSize="13"
+                           FontWeight="Bold"
+                           Margin="30,10,0,0"
+                           TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
