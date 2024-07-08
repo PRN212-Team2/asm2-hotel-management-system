@@ -1,7 +1,7 @@
 ﻿using RepositoryLayer.Models;
 
 
-namespace RepositoryLayer.Repositories
+namespace RepositoryLayer.Interfaces
 {
     public interface ICustomerRepository
     {

@@ -1,7 +1,7 @@
 ﻿using BusinessServiceLayer.DTOs;
 using RepositoryLayer.Models;
 
-namespace BusinessServiceLayer.Services
+namespace BusinessServiceLayer.Interfaces
 {
     public interface ICustomerService
     {

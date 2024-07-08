@@ -29,7 +29,7 @@
             <TextBlock Text="{Binding BookingReservation.BookingStatus}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 100 10"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2">
-            <TextBlock Text="BOOKING DETAILS" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0 20 0 0"/> 
+            <TextBlock Text="BOOKING DETAILS" HorizontalAlignment="Center" FontSize="25" Margin="0 20 0 0"/> 
             <ListView Name="CustomerList" ItemsSource="{Binding BookingReservation.BookingDetails}" HorizontalAlignment="Stretch" Width="Auto">
                 <ListView.View>
                     <GridView>

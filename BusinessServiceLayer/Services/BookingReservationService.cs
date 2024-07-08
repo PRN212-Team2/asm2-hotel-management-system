@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using BusinessServiceLayer.DTOs;
+using BusinessServiceLayer.Interfaces;
+using RepositoryLayer.Interfaces;
 using RepositoryLayer.Models;
-using RepositoryLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,16 @@ namespace BusinessServiceLayer.Services
             return _mapper.Map<IReadOnlyList<BookingReservation>, IReadOnlyList<BookingReservationDTO>>(bookingReservations);
         }
 
-        
+        public async Task<IReadOnlyList<BookingReservationReportStatisticDTO>> GetBookingReservationsAsync()
+        {
+            var bookingReservations = await _bookingReservationRepository.GetBookingReservationsAsync();
+            return _mapper.Map<IReadOnlyList<BookingReservation>, IReadOnlyList<BookingReservationReportStatisticDTO>>(bookingReservations);
+        }
+
+        public async Task<IReadOnlyList<BookingReservationReportStatisticDTO>> GetFilteredBookingReservationsAsync(DateTime StartDate, DateTime EndDate)
+        {
+            var bookingReservations = await _bookingReservationRepository.GetFilteredBookingReservationsAsync(StartDate, EndDate);
+            return _mapper.Map<IReadOnlyList<BookingReservation>, IReadOnlyList<BookingReservationReportStatisticDTO>>(bookingReservations);
+        }
     }
 }

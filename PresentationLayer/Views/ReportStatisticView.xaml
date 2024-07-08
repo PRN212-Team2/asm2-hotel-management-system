@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="PresentationLayer.Views.ReportStatisticView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PresentationLayer.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="400"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Text="Start Date" 
+                        Margin="20,15,-10,0" 
+                        VerticalAlignment="Top">
+            </TextBlock>
+            <DatePicker HorizontalAlignment="Left" 
+                        VerticalAlignment="Top" Margin="150,10,0,0" 
+                        RenderTransformOrigin="1.31,0.48"
+                        SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}">
+
+            </DatePicker>
+
+            <TextBlock Text="End Date" 
+                        Margin="20,57,-10,0" 
+                        VerticalAlignment="Top">
+            </TextBlock>
+            <DatePicker HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Margin="150 50 0 0" 
+                        RenderTransformOrigin="1.31,0.48"
+                        SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}">
+            </DatePicker>
+
+            <Button Command="{Binding FilterCommand}" HorizontalAlignment="Right" Width="170" Height="30" Margin="0 0 20 0">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Filter" VerticalAlignment="Center" Margin="0 0 10 0" Foreground="AntiqueWhite"/>
+                    <TextBlock Text="Filter Booking" VerticalAlignment="Center" Foreground="AntiqueWhite"/>
+                </StackPanel>
+            </Button>
+
+            <TextBlock Text="Total Revenue:"
+                       FontSize="16"
+                       Margin="303,12,327,0">
+            </TextBlock>
+            <TextBlock Text="{Binding Revenue, StringFormat=C}"
+                       FontSize="16" 
+                       FontWeight="Bold" 
+                       HorizontalAlignment="Left"
+                       Margin="303,43,0,7" 
+                       Width="170" Height="30">
+            </TextBlock>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <StackPanel x:Name="customerContent" Orientation="Vertical" HorizontalAlignment="Center">
+                <ListView Name="CustomerList" ItemsSource="{Binding ReportStatistics}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" Width="Auto" DisplayMemberBinding="{Binding BookingReservationID}"/>
+                            <GridViewColumn Header="Booking Date" Width="Auto" DisplayMemberBinding="{Binding BookingDate, StringFormat=d}"/>
+                            <GridViewColumn Header="TotalPrice" Width="Auto" DisplayMemberBinding="{Binding TotalPrice}"/>
+                            <GridViewColumn Header="Customer ID" Width="Auto" DisplayMemberBinding="{Binding CustomerID}"/>
+                            <GridViewColumn Header="Success" Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding BookingStatus}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
+
