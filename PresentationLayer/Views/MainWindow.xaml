@@ -56,7 +56,7 @@
                          Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Human" VerticalAlignment="Center" Margin="0 0 10 0"/>
-                    <TextBlock Text="Manage Room" VerticalAlignment="Center"/>
+                    <TextBlock Text="Manage Customer" VerticalAlignment="Center"/>
                 </StackPanel>
             </RadioButton>
 
@@ -103,8 +103,6 @@
                     <TextBlock Text="Booking Reservation History" VerticalAlignment="Center"/>
                 </StackPanel>
             </RadioButton>
-
-
         </StackPanel>
 
         <RadioButton Grid.Row="2"

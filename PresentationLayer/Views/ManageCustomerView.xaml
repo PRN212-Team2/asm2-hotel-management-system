@@ -17,7 +17,14 @@
             <RowDefinition Height="400"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Button Content="Create a Customer" Command="{Binding ShowCreateCustomerWindow}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="153" Height="30" Margin="0 0 20 0" RenderTransformOrigin="0.525,-0.103"/>
+            <Button Command="{Binding ShowCreateCustomerWindow}" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center" Width="170" Height="30" Margin="0 0 20 0" 
+                    RenderTransformOrigin="0.525,-0.103">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Create" VerticalAlignment="Center" Margin="0 0 10 0" Foreground="AntiqueWhite"/>
+                    <TextBlock Text="Create Customer" VerticalAlignment="Center" Foreground="AntiqueWhite"/>
+                </StackPanel>
+            </Button>
         </Grid>
         <Grid Grid.Row="0">
             <TextBox Name="FilterTextBox" Width="200" Margin="20 0 0 0" 
@@ -48,16 +55,26 @@
                             <GridViewColumn Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Edit" Command="{Binding ShowUpdateCustomerWindow}"
-                                                CommandParameter="{Binding CustomerId}"/>
+                                        <Button Command="{Binding ShowUpdateCustomerWindow}"
+                                                CommandParameter="{Binding CustomerId}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"
+                                                                          Foreground="AntiqueWhite"/>
+                                            </StackPanel>
+                                        </Button>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Delete" Command="{Binding ShowDeleteCustomerWindow}"
-                                                CommandParameter="{Binding CustomerId}"/>
+                                        <Button Command="{Binding ShowDeleteCustomerWindow}"
+                                                CommandParameter="{Binding CustomerId}">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" 
+                                                                         Foreground="AntiqueWhite"/>
+                                            </StackPanel>
+                                        </Button>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

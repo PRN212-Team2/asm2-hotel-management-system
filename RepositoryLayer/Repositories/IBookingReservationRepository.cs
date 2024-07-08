@@ -7,5 +7,6 @@ namespace RepositoryLayer.Repositories
         Task<IReadOnlyList<BookingReservation>> GetBookingReservationsByCustomerIdAsync(int customerId);
         Task<IReadOnlyList<BookingReservation>> GetBookingReservationsAsync();
         Task<IReadOnlyList<BookingReservation>> GetFilteredBookingReservationsAsync(DateTime StartDate, DateTime EndDate);
+        Task<BookingReservation> GetBookingReservationByIdAsync(int id);
     }
 }

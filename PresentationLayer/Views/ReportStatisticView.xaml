@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <TextBlock Text="Start Date" 
-                        Margin="10,15,-10,0" 
+                        Margin="20,15,-10,0" 
                         VerticalAlignment="Top">
             </TextBlock>
             <DatePicker HorizontalAlignment="Left" 
@@ -28,7 +28,7 @@
             </DatePicker>
 
             <TextBlock Text="End Date" 
-                        Margin="10,57,-10,0" 
+                        Margin="20,57,-10,0" 
                         VerticalAlignment="Top">
             </TextBlock>
             <DatePicker HorizontalAlignment="Left" 
@@ -38,7 +38,12 @@
                         SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}">
             </DatePicker>
 
-            <Button Content="Filter Booking" Command="{Binding FilterCommand}" Width="120" Height="30" Margin="350,25,330,25"/>
+            <Button Command="{Binding FilterCommand}" HorizontalAlignment="Right" Width="170" Height="30" Margin="0 0 20 0">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Filter" VerticalAlignment="Center" Margin="0 0 10 0" Foreground="AntiqueWhite"/>
+                    <TextBlock Text="Filter Booking" VerticalAlignment="Center" Foreground="AntiqueWhite"/>
+                </StackPanel>
+            </Button>
         </Grid>
 
         <Grid Grid.Row="1">

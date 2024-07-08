@@ -2,9 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:validationRules="clr-namespace:PresentationLayer.ValidationRules"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Create Customer" Height="500" Width="500"
         ResizeMode="NoResize"
-        Background="AntiqueWhite">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -70,8 +72,9 @@
                 <RowDefinition Height="11*"/>
                 <RowDefinition Height="64*"/>
             </Grid.RowDefinitions>
-            <Button Content="Close" Click="CloseButton_Click" Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="344,13,0,0" Grid.Row="1" />
-            <Button Content="Create" Command="{Binding CreateCustomerCommand}" 
+            <Button Content="Close" Click="CloseButton_Click" Height="30" Width="110" Foreground="AntiqueWhite" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="344,13,0,0" Grid.Row="1" />
+            <Button Content="Create" Command="{Binding CreateCustomerCommand}" Foreground="AntiqueWhite"
                     Height="30" Width="110" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,13,0,0" Grid.Row="1" >
             </Button>
         </Grid>

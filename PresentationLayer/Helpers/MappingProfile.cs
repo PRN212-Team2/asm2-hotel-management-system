@@ -21,6 +21,12 @@ namespace PresentationLayer.Helpers
             CreateMap<BookingReservation, BookingReservationDTO>();
             CreateMap<CustomerProfileViewModel, CustomerToAddOrUpdateDTO>();
             CreateMap<BookingReservation, BookingReservationReportStatisticDTO>();
+            CreateMap<RoomInformation, RoomInformationDTO>()
+                .ForMember(d => d.RoomTypeName, o => o.MapFrom(s => s.RoomType.RoomTypeName))
+                .ForMember(d => d.TypeDescription, o => o.MapFrom(s => s.RoomType.TypeDescription))
+                .ForMember(d => d.TypeNote, o => o.MapFrom(s => s.RoomType.TypeNote));
+            CreateMap<BookingDetail, BookingDetailDTO>();
+            CreateMap<BookingReservation, BookingReservationDetailDTO>();
         }
     }
 }
