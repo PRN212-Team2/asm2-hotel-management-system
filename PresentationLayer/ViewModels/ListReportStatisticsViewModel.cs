@@ -11,6 +11,7 @@ namespace PresentationLayer.ViewModels
     {
         private readonly IBookingReservationService _bookingReservationService;
         private ObservableCollection<BookingReservationReportStatisticDTO> _reportStatistics;
+        private decimal _revenue;
         public ObservableCollection<BookingReservationReportStatisticDTO> ReportStatistics
         {
             get => _reportStatistics;
@@ -43,6 +44,16 @@ namespace PresentationLayer.ViewModels
             }
         }
 
+        public decimal Revenue
+        {
+            get => _revenue;
+            set
+            {
+                _revenue = value;
+                OnPropertyChanged(nameof(Revenue));
+            }
+        }
+
         public ICommand FilterCommand { get; }
 
         public ListReportStatisticsViewModel(IBookingReservationService bookingReservationService)
@@ -56,6 +67,7 @@ namespace PresentationLayer.ViewModels
         {
             var bookingReservations = await _bookingReservationService.GetBookingReservationsAsync();
             ReportStatistics = new ObservableCollection<BookingReservationReportStatisticDTO>(bookingReservations);
+            CalculateRevenue();
         }
 
         private async Task FilterBookingReservationsAsync()
@@ -74,11 +86,21 @@ namespace PresentationLayer.ViewModels
 
             var bookingReservations = await _bookingReservationService.GetFilteredBookingReservationsAsync(StartDate.Value, EndDate.Value);
             ReportStatistics = new ObservableCollection<BookingReservationReportStatisticDTO>(bookingReservations);
+            CalculateRevenue();
         }
 
         private bool CanFilterExecute(object parameter)
         {
             return true;
+        }
+
+        private async void CalculateRevenue()
+        {
+            if(ReportStatistics != null)
+            {
+                Revenue = ReportStatistics.Sum(r => r.TotalPrice);
+            }
+            else Revenue = 0;
         }
     }
 }

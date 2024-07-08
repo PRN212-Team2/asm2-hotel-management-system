@@ -149,8 +149,8 @@ namespace RepositoryLayer.Repositories
         public async Task<IReadOnlyList<BookingReservation>> GetFilteredBookingReservationsAsync(DateTime StartDate, DateTime EndDate)
         {
             string sql = "SELECT * FROM BookingReservation " +
-                         "WHERE BookingDate >= @StartDate " +
-                         "AND BookingDate <= @EndDate " +
+                         "WHERE CAST(BookingDate AS DATE) >= @StartDate " +
+                         "AND CAST(BookingDate AS DATE) <= @EndDate " +
                          "ORDER BY BookingDate DESC;";
             SqlConnection connection = _context.GetConnection();
             SqlCommand command = new SqlCommand(sql, connection);
