@@ -54,12 +54,14 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        public ICommand FilterCommand { get; }
+        public RelayCommand FilterCommand { get; set; }
+        public RelayCommand ResetFilterCommand { get; set; }
 
         public ListReportStatisticsViewModel(IBookingReservationService bookingReservationService)
         {
             _bookingReservationService = bookingReservationService;
-            FilterCommand = new RelayCommand(async o => await FilterBookingReservationsAsync(), CanFilterExecute);
+            FilterCommand = new RelayCommand(async o => await FilterBookingReservationsAsync(o), o => true);
+            ResetFilterCommand = new RelayCommand(async o => await ResetFilter(o), o => true);
             // Initialize StartDate and EndDate if needed
         }
 
@@ -70,7 +72,7 @@ namespace PresentationLayer.ViewModels
             CalculateRevenue();
         }
 
-        private async Task FilterBookingReservationsAsync()
+        private async Task FilterBookingReservationsAsync(object obj)
         {
             if (!StartDate.HasValue || !EndDate.HasValue)
             {
@@ -89,9 +91,11 @@ namespace PresentationLayer.ViewModels
             CalculateRevenue();
         }
 
-        private bool CanFilterExecute(object parameter)
+        private async Task ResetFilter(object obj)
         {
-            return true;
+            await GetBookingReservationsAsync();
+            StartDate = null;
+            EndDate = null;
         }
 
         private void CalculateRevenue()
