@@ -37,10 +37,16 @@
                         SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}">
             </DatePicker>
 
-            <Button Command="{Binding FilterCommand}" HorizontalAlignment="Right" Width="170" Height="30" Margin="0 0 20 0">
+            <Button Command="{Binding FilterCommand}" HorizontalAlignment="Right" Width="170" Height="30" Margin="0,-30,20,3">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Filter" VerticalAlignment="Center" Margin="0 0 10 0" Foreground="AntiqueWhite"/>
                     <TextBlock Text="Filter Booking" VerticalAlignment="Center" Foreground="AntiqueWhite"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding ResetFilterCommand}" HorizontalAlignment="Right" Width="170" Height="30" Margin="0,47,20,3">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Filter" VerticalAlignment="Center" Margin="0 0 10 0" Foreground="AntiqueWhite"/>
+                    <TextBlock Text="Reset Filter" VerticalAlignment="Center" Foreground="AntiqueWhite"/>
                 </StackPanel>
             </Button>
 
