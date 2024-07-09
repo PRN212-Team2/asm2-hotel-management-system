@@ -9,12 +9,12 @@ namespace RepositoryLayer.Interfaces
 {
     public interface IRoomInformationRepository
     {
-        Task<IReadOnlyList<RoomInformation>> GetRoomInformationAsync();
         Task<IReadOnlyList<RoomInformation>> GetRoomsWithTypeAsync();
         Task<RoomInformation> GetRoomByIdWithTypeAsync(int id);
         Task CreateRoomInformationAsync(RoomInformation roomInformation);
         Task DeleteRoomInformationAsync(int id);
         Task UpdateRoomInformationAsync(RoomInformation updatedRoomInformation);
-        Task<RoomInformation> GetRoomInformationByIdAsync(int id);
+        Task<IReadOnlyList<RoomInformation>> GetRoomInformationForManageAsync();
+        Task<RoomInformation> GetRoomInformationByIdForManageAsync(int id);
     }
 }

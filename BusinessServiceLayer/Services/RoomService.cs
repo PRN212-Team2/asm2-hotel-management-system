@@ -25,12 +25,6 @@ namespace BusinessServiceLayer.Services
             _mapper = mapper;
         }
 
-        public async Task<IReadOnlyList<RoomInformationDTO>> GetRoomInformationAsync()
-        {
-            var rooms = await _roomInformationRepository.GetRoomInformationAsync();
-            return _mapper.Map<IReadOnlyList<RoomInformation>, IReadOnlyList<RoomInformationDTO>>(rooms);
-        }
-
         public async Task<IReadOnlyList<RoomInformationDTO>> GetRoomsWithTypeAsync()
         {
             var rooms = await _roomInformationRepository.GetRoomsWithTypeAsync();
@@ -44,17 +38,6 @@ namespace BusinessServiceLayer.Services
             return _mapper.Map<RoomInformation, RoomInformationDTO>(room);
         }
 
-        public async Task<RoomInformationDTO> GetRoomInformationByIdAsync(int id)
-        {
-            RoomInformation room = await _roomInformationRepository.GetRoomInformationByIdAsync(id);
-            if (room == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<RoomInformation, RoomInformationDTO>(room);
-        }
-
         public async Task CreateRoomAsync(RoomInformationToAddOrUpdateDTO room)
         {
             if (room == null) throw new ArgumentNullException(nameof(RoomInformationToAddOrUpdateDTO));
@@ -64,12 +47,12 @@ namespace BusinessServiceLayer.Services
 
         public async Task DeleteRoomAsync(int id)
         {
-            if (_roomInformationRepository.GetRoomInformationByIdAsync(id) == null) throw new ArgumentNullException($"Room {id} not found");
+            if (_roomInformationRepository.GetRoomInformationByIdForManageAsync(id) == null) throw new ArgumentNullException($"Room {id} not found");
             await _roomInformationRepository.DeleteRoomInformationAsync(id);
         }
         public async Task UpdateRoomAsync(RoomInformationToAddOrUpdateDTO updatedRoom, int id)
         {
-            RoomInformation existingRoom = await _roomInformationRepository.GetRoomInformationByIdAsync(id);
+            RoomInformation existingRoom = await _roomInformationRepository.GetRoomInformationByIdForManageAsync(id);
             if (existingRoom == null) throw new ArgumentNullException($"Room {id} not found");
 
             // Update fields only if the new data is not blank or null
@@ -106,6 +89,19 @@ namespace BusinessServiceLayer.Services
         {
             var roomTypes = await _roomTypeRepository.GetRoomTypesAsync();
             return _mapper.Map<IReadOnlyList<RoomType>, IReadOnlyList<RoomTypeDTO>>(roomTypes);
+        }
+
+        public async Task<IReadOnlyList<RoomInformationDTO>> GetRoomInformationForManageAsync()
+        {
+            var rooms = await _roomInformationRepository.GetRoomInformationForManageAsync();
+            return _mapper.Map<IReadOnlyList<RoomInformation>, IReadOnlyList<RoomInformationDTO>>(rooms);
+        }
+
+        public async Task<RoomInformationDTO> GetRoomInformationByIdForManageAsync(int id)
+        {
+            var room = await _roomInformationRepository.GetRoomInformationByIdForManageAsync(id);
+            if (room == null) return null;
+            return _mapper.Map<RoomInformation, RoomInformationDTO>(room);
         }
     }
 }

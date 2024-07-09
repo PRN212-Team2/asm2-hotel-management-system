@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PresentationLayer.ViewModels
 {
@@ -28,6 +29,7 @@ namespace PresentationLayer.ViewModels
         {
             await _roomInformationService.DeleteRoomAsync(RoomID);
             RoomInformationDeleted?.Invoke(this, EventArgs.Empty);
+            MessageBox.Show("Delete Room Successfully");
         }
     }
 }

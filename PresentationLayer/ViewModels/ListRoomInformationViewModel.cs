@@ -1,4 +1,5 @@
-﻿using BusinessServiceLayer.Interfaces;
+﻿using BusinessServiceLayer.DTOs;
+using BusinessServiceLayer.Interfaces;
 using PresentationLayer.Commands;
 using PresentationLayer.Views;
 using System;
@@ -13,17 +14,17 @@ namespace PresentationLayer.ViewModels
     public class ListRoomInformationViewModel : ViewModelBase
     {
         private readonly IRoomService _roomInformationService;
-        private readonly CreateRoomInformationViewModel _createroomInformationViewModel;
-        private readonly UpdateRoomInformationViewModel _updateroomInformationViewModel;
-        private readonly DeleteRoomInformationViewModel _deleteroomInformationViewModel;
-        private ObservableCollection<RoomInformationDetailsViewModel> _roomInformation;
-        public ObservableCollection<RoomInformationDetailsViewModel> RoomInformation
+        private readonly CreateRoomInformationViewModel _createRoomInformationViewModel;
+        private readonly UpdateRoomInformationViewModel _updateRoomInformationViewModel;
+        private readonly DeleteRoomInformationViewModel _deleteRoomInformationViewModel;
+        private ObservableCollection<RoomInformationItemViewModel> _rooms;
+        public ObservableCollection<RoomInformationItemViewModel> Rooms
         {
-            get => _roomInformation;
+            get => _rooms;
             set
             {
-                _roomInformation = value;
-                OnPropertyChanged(nameof(RoomInformation));
+                _rooms = value;
+                OnPropertyChanged(nameof(Rooms));
             }
         }
 
@@ -35,10 +36,26 @@ namespace PresentationLayer.ViewModels
             {
                 _searchText = value;
                 OnPropertyChanged(nameof(SearchText));
-                FilterRoomInformation(value);
+                FilterRoomInformation(value, SelectedTypeID);
             }
         }
 
+        // Retrieve list of room types for dropdown value
+        public ObservableCollection<RoomTypeDTO> RoomTypes { get; set; }
+
+        private int? _selectedRoomTypeID;
+        public int? SelectedTypeID
+        {
+            get => _selectedRoomTypeID;
+            set
+            {
+                _selectedRoomTypeID = value;
+                OnPropertyChanged(nameof(SelectedTypeID));
+                FilterRoomInformation(SearchText, value);
+            }
+        }
+
+        public RelayCommand ResetFilterCommand { get; set; }
         public RelayCommand ShowCreateRoomInformationWindow { get; set; }
 
         public ListRoomInformationViewModel(IRoomService roomInformationService,
@@ -47,19 +64,21 @@ namespace PresentationLayer.ViewModels
             DeleteRoomInformationViewModel deleteRoomInformationViewModel)
         {
             _roomInformationService = roomInformationService;
-            _createroomInformationViewModel = createRoomInformationViewModel;
-            _updateroomInformationViewModel = updateRoomInformationViewModel;
-            _deleteroomInformationViewModel = deleteRoomInformationViewModel;
-            _createroomInformationViewModel.RoomInformationCreated += OnRoomInformationCreated;
-            _deleteroomInformationViewModel.RoomInformationDeleted += OnRoomInformationDeleted;
-            _updateroomInformationViewModel.RoomInformationUpdated += OnRoomInformationUpdated;
-            ShowCreateRoomInformationWindow = new RelayCommand(ShowCreateWindow, o => true);
+            _createRoomInformationViewModel = createRoomInformationViewModel;
+            _updateRoomInformationViewModel = updateRoomInformationViewModel;
+            _deleteRoomInformationViewModel = deleteRoomInformationViewModel;
+            _createRoomInformationViewModel.RoomInformationCreated += OnRoomInformationCreated;
+            _deleteRoomInformationViewModel.RoomInformationDeleted += OnRoomInformationDeleted;
+            _updateRoomInformationViewModel.RoomInformationUpdated += OnRoomInformationUpdated;
+            ShowCreateRoomInformationWindow = new RelayCommand(async o => await ShowCreateWindow(o), o => true);
+            ResetFilterCommand = new RelayCommand(async o => await ResetFilter(o), o => true);
             SearchText = "";
         }
 
-        private void ShowCreateWindow(object obj)
+        private async Task ShowCreateWindow(object obj)
         {
-            CreateRoomInformationPopupView createRoomInformationWin = new CreateRoomInformationPopupView(_createroomInformationViewModel);
+            await _createRoomInformationViewModel.GetRoomTypesAsync();
+            CreateRoomInformationPopupView createRoomInformationWin = new CreateRoomInformationPopupView(_createRoomInformationViewModel);
             createRoomInformationWin.Show();
         }
 
@@ -78,57 +97,70 @@ namespace PresentationLayer.ViewModels
             await GetRoomInformationAsync();
         }
 
-        private async void FilterRoomInformation(string searchText)
+        public async Task GetRoomTypesAsync()
         {
-            if (string.IsNullOrEmpty(searchText))
+            var roomTypes = await _roomInformationService.GetRoomTypesAsync();
+            RoomTypes = new ObservableCollection<RoomTypeDTO>(roomTypes);
+        }
+
+        private async void FilterRoomInformation(string searchText, int? selectedTypeId)
+        {
+            if (string.IsNullOrEmpty(searchText) && !selectedTypeId.HasValue)
             {
                 await GetRoomInformationAsync();
             }
             else
             {
-                searchText = searchText.ToLowerInvariant(); // Ensure case-insensitive search
+                searchText = searchText?.ToLowerInvariant(); // Ensure case-insensitive search
 
                 await GetRoomInformationAsync();
 
-                // Check if the search text is a valid number (for price filtering)
-                if (decimal.TryParse(searchText, out decimal searchPrice))
+                var filteredRooms = Rooms.AsEnumerable();
+
+                if (!string.IsNullOrEmpty(searchText))
                 {
-                    RoomInformation = new ObservableCollection<RoomInformationDetailsViewModel>(
-                        RoomInformation.Where(c =>
-                            c.RoomPricePerDay <= searchPrice
-                        )
-                    );
+                    filteredRooms = filteredRooms.Where(r => r.RoomNumber.ToLowerInvariant().Contains(searchText));
                 }
-                else
+
+                if (selectedTypeId.HasValue)
                 {
-                    RoomInformation = new ObservableCollection<RoomInformationDetailsViewModel>(
-                        RoomInformation.Where(c =>
-                            c.RoomNumber.ToLowerInvariant().Contains(searchText)
-                        )
-                    );
+                    filteredRooms = filteredRooms.Where(r => r.RoomTypeID == selectedTypeId.Value);
                 }
+
+                Rooms = new ObservableCollection<RoomInformationItemViewModel>(filteredRooms);
             }
+        }
+
+        private async Task ResetFilter(object obj)
+        {
+            await GetRoomInformationAsync();
+            SearchText = null;
+            SelectedTypeID = null;
         }
 
         public async Task GetRoomInformationAsync()
         {
-            var rooms = await _roomInformationService.GetRoomInformationAsync();
+            var rooms = await _roomInformationService.GetRoomInformationForManageAsync();
 
-            var roomInformationObservable = new ObservableCollection<RoomInformationDetailsViewModel>();
+            var roomInformationObservable = new ObservableCollection<RoomInformationItemViewModel>();
             foreach (var room in rooms)
             {
-                var roomInformationDetail = new RoomInformationDetailsViewModel(_updateroomInformationViewModel, _deleteroomInformationViewModel, _roomInformationService);
+                var roomInformationDetail = new RoomInformationItemViewModel(_updateRoomInformationViewModel, 
+                    _deleteRoomInformationViewModel, _roomInformationService);
                 roomInformationDetail.RoomID = room.RoomID;
                 roomInformationDetail.RoomNumber = room.RoomNumber;
                 roomInformationDetail.RoomDetailDescription = room.RoomDetailDescription;
                 roomInformationDetail.RoomMaxCapacity = room.RoomMaxCapacity;
                 roomInformationDetail.RoomTypeID = room.RoomTypeID;
+                roomInformationDetail.RoomTypeName = room.RoomTypeName;
+                roomInformationDetail.TypeNote = room.TypeNote;
+                roomInformationDetail.TypeDescription = room.TypeDescription;
                 roomInformationDetail.RoomStatus = room.RoomStatus;
                 roomInformationDetail.RoomPricePerDay = room.RoomPricePerDay;
                 roomInformationObservable.Add(roomInformationDetail);
             }
 
-            RoomInformation = roomInformationObservable;
+            Rooms = roomInformationObservable;
         }
     }
 }

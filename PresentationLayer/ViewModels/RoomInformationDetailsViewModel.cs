@@ -13,9 +13,6 @@ namespace PresentationLayer.ViewModels
 {
     public class RoomInformationDetailsViewModel : ViewModelBase
     {
-        private readonly UpdateRoomInformationViewModel _updateRoomInformationViewModel;
-        private readonly DeleteRoomInformationViewModel _deleteRoomInformationViewModel;
-
         private readonly IRoomService _roomService;
         public int RoomID { get; set; }
         public string RoomNumber { get; set; }
@@ -29,16 +26,8 @@ namespace PresentationLayer.ViewModels
         public decimal RoomPricePerDay { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        private string _errorMessage;
-
-        public RelayCommand ShowUpdateRoomInformationWindow { get; set; }
-        public RelayCommand ShowDeleteRoomInformationWindow { get; set; }
         public RelayCommand AddToBasketCommand { get; set; }
-
-        public UpdateRoomInformationPopupView updateRoomInformationWin;
-
-        public DeleteRoomInformationPopupView deleteRoomInformationWin;
-
+        private string _errorMessage;
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -49,44 +38,10 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        public RoomInformationDetailsViewModel(UpdateRoomInformationViewModel updateRoomInformationViewModel,
-            DeleteRoomInformationViewModel deleteRoomInformationViewModel, IRoomService roomService)
+        public RoomInformationDetailsViewModel(IRoomService roomService)
         {
-            _updateRoomInformationViewModel = updateRoomInformationViewModel;
-            _deleteRoomInformationViewModel = deleteRoomInformationViewModel;
-            ShowUpdateRoomInformationWindow = new RelayCommand(async o => await ShowUpdateWindow(o), o => true);
-            ShowDeleteRoomInformationWindow = new RelayCommand(ShowDeleteWindow, o => true);
             _roomService = roomService;
             AddToBasketCommand = new RelayCommand(AddToBasket, CanExecuteAddToBasket);
-        }
-
-        private async Task ShowUpdateWindow(object roomId)
-        {
-            if (roomId != null)
-            {
-                await _updateRoomInformationViewModel.LoadRoomInformationDetail((int)roomId);
-                updateRoomInformationWin = new UpdateRoomInformationPopupView(_updateRoomInformationViewModel);
-                updateRoomInformationWin.Show();
-            }
-            else
-            {
-                MessageBox.Show("Room ID not found");
-            }
-
-        }
-
-        private void ShowDeleteWindow(object roomId)
-        {
-            if (roomId != null)
-            {
-                _deleteRoomInformationViewModel.RoomID = (int)roomId;
-                deleteRoomInformationWin = new DeleteRoomInformationPopupView(_deleteRoomInformationViewModel);
-                deleteRoomInformationWin.Show();
-            }
-            else
-            {
-                MessageBox.Show("Room ID not found");
-            }
         }
 
         public async Task LoadRoomDetails(int roomId)

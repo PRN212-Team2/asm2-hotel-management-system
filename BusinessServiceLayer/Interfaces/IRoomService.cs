@@ -9,11 +9,11 @@ namespace BusinessServiceLayer.Interfaces
 {
     public interface IRoomService
     {
-        Task<IReadOnlyList<RoomInformationDTO>> GetRoomInformationAsync();
         Task<IReadOnlyList<RoomInformationDTO>> GetRoomsWithTypeAsync();
         Task<RoomInformationDTO> GetRoomByIdWithTypeAsync(int id);
         Task<IReadOnlyList<RoomTypeDTO>> GetRoomTypesAsync();
-        Task<RoomInformationDTO> GetRoomInformationByIdAsync(int id);
+        Task<IReadOnlyList<RoomInformationDTO>> GetRoomInformationForManageAsync();
+        Task<RoomInformationDTO> GetRoomInformationByIdForManageAsync(int id);
         Task CreateRoomAsync(RoomInformationToAddOrUpdateDTO room);
         Task DeleteRoomAsync(int id);
         Task UpdateRoomAsync(RoomInformationToAddOrUpdateDTO updatedRoom, int id);

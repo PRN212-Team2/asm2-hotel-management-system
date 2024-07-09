@@ -15,46 +15,6 @@ namespace RepositoryLayer.Repositories
             _context = context;
         }
 
-        public async Task<IReadOnlyList<RoomInformation>> GetRoomInformationAsync()
-        {
-            string sql = "SELECT * FROM RoomInformation";
-            SqlConnection connection = _context.GetConnection();
-            SqlCommand command = new SqlCommand(sql, connection);
-            List<RoomInformation> rooms = new List<RoomInformation>();
-
-            try
-            {
-                await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        rooms.Add(new RoomInformation()
-                        {
-                            RoomID = reader.GetInt32("RoomID"),
-                            RoomNumber = reader.GetString("RoomNumber"),
-                            RoomDetailDescription = reader.GetString("RoomDetailDescription"),
-                            RoomMaxCapacity = reader.GetInt32("RoomMaxCapacity"),
-                            RoomPricePerDay = reader.GetDecimal("RoomPricePerDay"),
-                            RoomStatus = reader.GetByte("RoomStatus") != 0,
-                            RoomTypeID = reader.GetInt32("RoomTypeID"),
-                        });
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            finally
-            {
-                connection.Close();
-            }
-            return rooms;
-        }
-
         public async Task<IReadOnlyList<RoomInformation>> GetRoomsWithTypeAsync() 
         {
             string sql = "SELECT a.RoomID, a.RoomNumber, a.RoomDetailDescription, a.RoomMaxCapacity, " +
@@ -102,7 +62,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return rooms;
         }
@@ -153,7 +113,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return room;
         }
@@ -175,7 +135,7 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
@@ -183,7 +143,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
 
@@ -200,7 +160,7 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
@@ -208,7 +168,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
 
@@ -232,7 +192,7 @@ namespace RepositoryLayer.Repositories
             try
             {
                 await connection.OpenAsync();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
             catch (Exception ex)
             {
@@ -240,33 +200,45 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
-        public async Task<RoomInformation> GetRoomInformationByIdAsync(int id)
+        public async Task<RoomInformation> GetRoomInformationByIdForManageAsync(int id)
         {
-            string sql = "SELECT * FROM RoomInformation WHERE RoomID = @RoomID";
+            string sql = "SELECT a.RoomID, a.RoomNumber, a.RoomDetailDescription, a.RoomMaxCapacity, " +
+                         "a.RoomPricePerDay, a.RoomTypeID, a.RoomStatus, b.RoomTypeName, b.TypeDescription, b.TypeNote " +
+                         "FROM RoomInformation a " +
+                         "LEFT JOIN RoomType b " +
+                         "ON a.RoomTypeID = b.RoomTypeID " +
+                         "WHERE a.RoomID = @RoomID";
             SqlConnection connection = _context.GetConnection();
             SqlCommand command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@RoomID", id);
-            RoomInformation roomInformation = null;
+            RoomInformation room = null;
 
             try
             {
                 await connection.OpenAsync();
-                SqlDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
 
-                if (reader.HasRows && reader.Read())
+                if (reader.HasRows && await reader.ReadAsync())
                 {
-                    roomInformation = new RoomInformation()
+                    room = new RoomInformation()
                     {
                         RoomID = reader.GetInt32("RoomID"),
                         RoomNumber = reader.GetString("RoomNumber"),
                         RoomDetailDescription = reader.GetString("RoomDetailDescription"),
                         RoomMaxCapacity = reader.GetInt32("RoomMaxCapacity"),
+                        RoomPricePerDay = reader.GetDecimal("RoomPricePerDay"),
+                        RoomStatus = reader.GetByte("RoomStatus") != 0,
                         RoomTypeID = reader.GetInt32("RoomTypeID"),
-                        RoomStatus = reader.GetInt16("RoomStatus") != 0,
-                        RoomPricePerDay = reader.GetInt64("RoomPricePerDay"),
+                        RoomType = new RoomType()
+                        {
+                            RoomTypeId = reader.GetInt32("RoomTypeID"),
+                            RoomTypeName = reader.GetString("RoomTypeName"),
+                            TypeDescription = reader.GetString("TypeDescription"),
+                            TypeNote = reader.GetString("TypeNote")
+                        }
                     };
                 }
             }
@@ -276,9 +248,61 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
-            return roomInformation;
+            return room;
+        }
+
+        public async Task<IReadOnlyList<RoomInformation>> GetRoomInformationForManageAsync()
+        {
+            string sql = "SELECT a.RoomID, a.RoomNumber, a.RoomDetailDescription, a.RoomMaxCapacity, " +
+                "a.RoomPricePerDay, a.RoomTypeID, a.RoomStatus, b.RoomTypeName, b.TypeDescription, b.TypeNote " +
+                "FROM RoomInformation a " +
+                "LEFT JOIN RoomType b " +
+                "ON a.RoomTypeID = b.RoomTypeID";
+                
+            SqlConnection connection = _context.GetConnection();
+            SqlCommand command = new SqlCommand(sql, connection);
+            List<RoomInformation> rooms = new List<RoomInformation>();
+
+            try
+            {
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+
+                if (reader.HasRows)
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        rooms.Add(new RoomInformation()
+                        {
+                            RoomID = reader.GetInt32("RoomID"),
+                            RoomNumber = reader.GetString("RoomNumber"),
+                            RoomDetailDescription = reader.GetString("RoomDetailDescription"),
+                            RoomMaxCapacity = reader.GetInt32("RoomMaxCapacity"),
+                            RoomPricePerDay = reader.GetDecimal("RoomPricePerDay"),
+                            RoomStatus = reader.GetByte("RoomStatus") != 0,
+                            RoomTypeID = reader.GetInt32("RoomTypeID"),
+                            RoomType = new RoomType()
+                            {
+                                RoomTypeId = reader.GetInt32("RoomTypeID"),
+                                RoomTypeName = reader.GetString("RoomTypeName"),
+                                TypeDescription = reader.GetString("TypeDescription"),
+                                TypeNote = reader.GetString("TypeNote")
+                            }
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+            return rooms;
         }
     }
 }

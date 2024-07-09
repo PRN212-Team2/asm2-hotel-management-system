@@ -29,6 +29,10 @@ namespace PresentationLayer.Helpers
             CreateMap<BookingReservation, BookingReservationDetailDTO>();
             CreateMap<RoomType, RoomTypeDTO>();
             CreateMap<BasketItem, BasketItemDTO>();
+            CreateMap<RoomInformationToAddOrUpdateDTO, RoomInformation>();
+            CreateMap<CreateRoomInformationViewModel, RoomInformationToAddOrUpdateDTO>();
+            CreateMap<UpdateRoomInformationViewModel, RoomInformationToAddOrUpdateDTO>();
+
         }
     }
 }
