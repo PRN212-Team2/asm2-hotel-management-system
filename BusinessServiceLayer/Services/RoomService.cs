@@ -38,10 +38,70 @@ namespace BusinessServiceLayer.Services
             return _mapper.Map<RoomInformation, RoomInformationDTO>(room);
         }
 
+        public async Task CreateRoomAsync(RoomInformationToAddOrUpdateDTO room)
+        {
+            if (room == null) throw new ArgumentNullException(nameof(RoomInformationToAddOrUpdateDTO));
+            RoomInformation roomToAdd = _mapper.Map<RoomInformationToAddOrUpdateDTO, RoomInformation>(room);
+            await _roomInformationRepository.CreateRoomInformationAsync(roomToAdd);
+        }
+
+        public async Task DeleteRoomAsync(int id)
+        {
+            if (_roomInformationRepository.GetRoomInformationByIdForManageAsync(id) == null) throw new ArgumentNullException($"Room {id} not found");
+            await _roomInformationRepository.DeleteRoomInformationAsync(id);
+        }
+        public async Task UpdateRoomAsync(RoomInformationToAddOrUpdateDTO updatedRoom, int id)
+        {
+            RoomInformation existingRoom = await _roomInformationRepository.GetRoomInformationByIdForManageAsync(id);
+            if (existingRoom == null) throw new ArgumentNullException($"Room {id} not found");
+
+            // Update fields only if the new data is not blank or null
+            if (!string.IsNullOrWhiteSpace(updatedRoom.RoomNumber))
+            {
+                existingRoom.RoomNumber = updatedRoom.RoomNumber;
+            }
+
+            if (!string.IsNullOrWhiteSpace(updatedRoom.RoomDetailDescription))
+            {
+                existingRoom.RoomDetailDescription = updatedRoom.RoomDetailDescription;
+            }
+
+            if (updatedRoom.RoomMaxCapacity != 0)
+            {
+                existingRoom.RoomMaxCapacity = updatedRoom.RoomMaxCapacity;
+            }
+
+            if (updatedRoom.RoomTypeID != 0)
+            {
+                existingRoom.RoomTypeID = updatedRoom.RoomTypeID;
+            }
+
+            existingRoom.RoomStatus = updatedRoom.RoomStatus;
+
+            if (updatedRoom.RoomPricePerDay != 0)
+            {
+                existingRoom.RoomPricePerDay = updatedRoom.RoomPricePerDay;
+            }
+
+            await _roomInformationRepository.UpdateRoomInformationAsync(existingRoom);
+        }
         public async Task<IReadOnlyList<RoomTypeDTO>> GetRoomTypesAsync()
         {
             var roomTypes = await _roomTypeRepository.GetRoomTypesAsync();
             return _mapper.Map<IReadOnlyList<RoomType>, IReadOnlyList<RoomTypeDTO>>(roomTypes);
+        }
+
+        public async Task<IReadOnlyList<RoomInformationDTO>> GetRoomInformationForManageAsync()
+        {
+            var rooms = await _roomInformationRepository.GetRoomInformationForManageAsync();
+            return _mapper.Map<IReadOnlyList<RoomInformation>, IReadOnlyList<RoomInformationDTO>>(rooms);
+        }
+
+        public async Task<RoomInformationDTO> GetRoomInformationByIdForManageAsync(int id)
+        {
+            var room = await _roomInformationRepository.GetRoomInformationByIdForManageAsync(id);
+            if (room == null) return null;
+            return _mapper.Map<RoomInformation, RoomInformationDTO>(room);
         }
     }
 }

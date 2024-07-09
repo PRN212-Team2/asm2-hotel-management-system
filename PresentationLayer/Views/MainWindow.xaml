@@ -16,7 +16,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -42,19 +42,23 @@
             <DataTemplate DataType="{x:Type viewModels:MakeReservationViewModel}">
                 <views:MakeReservationView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:ListRoomInformationViewModel}">
+                <views:ManageRoomInformationView/>
+            </DataTemplate>
         </Grid.Resources>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-            <Image Source="../Assets/Logo/HMS_logo.png" Height="40" Margin="20 0 10 0" VerticalAlignment="Center"/>
+            <Image Source="../Assets/Logo/HMS_logo.png" Height="50" Margin="20 0 10 0" VerticalAlignment="Center"/>
             <TextBlock Text="HMS"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
+                       FontWeight="Bold"
                        Foreground="Orange"
                        FontSize="22"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1">
-            <RadioButton Style="{StaticResource MenuButtonTheme}"
+            <RadioButton Style="{StaticResource MenuButtonTheme}" Margin="0 20 0 0"
                          Command="{Binding NavigateToManageCustomerViewCommand}"
                          Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}">
                 <StackPanel Orientation="Horizontal">
@@ -65,6 +69,7 @@
 
 
             <RadioButton Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding NavigateToManageRoomInformationViewCommand}"
                          Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibility}}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="LivingRoom" VerticalAlignment="Center" Margin="0 0 10 0"/>
@@ -81,7 +86,7 @@
                 </StackPanel>
             </RadioButton>
 
-            <RadioButton Style="{StaticResource MenuButtonTheme}"
+            <RadioButton Style="{StaticResource MenuButtonTheme}" Margin="0 20 0 0"
                          Command="{Binding NavigateToMakeReservationViewCommand}"
                          Visibility="{Binding IsCustomer, Converter={StaticResource BooleanToVisibility}}">
                 <StackPanel Orientation="Horizontal">

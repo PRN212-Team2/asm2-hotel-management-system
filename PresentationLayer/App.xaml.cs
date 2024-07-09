@@ -52,6 +52,10 @@ public partial class App : Application
                 services.AddSingleton<BookingReservationDetailViewModel>();
                 services.AddSingleton<MakeReservationViewModel>();
                 services.AddSingleton<RoomInformationDetailsViewModel>();
+                services.AddSingleton<ListRoomInformationViewModel>();
+                services.AddSingleton<CreateRoomInformationViewModel>();
+                services.AddSingleton<DeleteRoomInformationViewModel>();
+                services.AddSingleton<UpdateRoomInformationViewModel>();
                 services.AddSingleton<Func<Type, ViewModelBase>>(services => viewModelType 
                 => (ViewModelBase) services.GetRequiredService(viewModelType));
                 services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();

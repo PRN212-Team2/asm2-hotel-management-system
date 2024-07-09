@@ -1,11 +1,17 @@
 ﻿using BusinessServiceLayer.Interfaces;
 using PresentationLayer.Commands;
 using PresentationLayer.Models;
+using PresentationLayer.Views;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace PresentationLayer.ViewModels
 {
-    public class RoomInformationDetailsViewModel : ViewModelBase 
+    public class RoomInformationDetailsViewModel : ViewModelBase
     {
         private readonly IRoomService _roomService;
         public int RoomID { get; set; }
@@ -20,7 +26,7 @@ namespace PresentationLayer.ViewModels
         public decimal RoomPricePerDay { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
+        public RelayCommand AddToBasketCommand { get; set; }
         private string _errorMessage;
         public string ErrorMessage
         {
@@ -32,18 +38,16 @@ namespace PresentationLayer.ViewModels
             }
         }
 
-        public RelayCommand AddToBasketCommand { get; set; }
-
         public RoomInformationDetailsViewModel(IRoomService roomService)
         {
             _roomService = roomService;
             AddToBasketCommand = new RelayCommand(AddToBasket, CanExecuteAddToBasket);
         }
-        
+
         public async Task LoadRoomDetails(int roomId)
         {
             var room = await _roomService.GetRoomByIdWithTypeAsync(roomId);
-            if (room != null) 
+            if (room != null)
             {
                 RoomID = room.RoomID;
                 RoomNumber = room.RoomNumber;
@@ -60,12 +64,12 @@ namespace PresentationLayer.ViewModels
             {
                 MessageBox.Show("Room not found!");
             }
-            
+
         }
 
         private bool CanExecuteAddToBasket(object obj)
         {
-            if(StartDate > EndDate)
+            if (StartDate > EndDate)
             {
                 ErrorMessage = "Start Date cannot be after End Date";
                 return false;

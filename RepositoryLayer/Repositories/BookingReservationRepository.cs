@@ -59,7 +59,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return bookingReservation;
         }
@@ -101,7 +101,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return bookingReservations;
 
@@ -142,7 +142,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return bookingReservations;
 
@@ -187,7 +187,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return bookingReservations;
 
@@ -217,7 +217,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
 
@@ -245,7 +245,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
     }

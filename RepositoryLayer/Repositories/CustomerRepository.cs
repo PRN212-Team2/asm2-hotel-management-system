@@ -57,7 +57,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return customer;
         }
@@ -97,7 +97,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return customer;
         }
@@ -136,7 +136,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return customers;
         }
@@ -166,7 +166,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
 
@@ -191,7 +191,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
 
@@ -223,7 +223,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
         public async Task<Customer> GetCustomerByIdAsync(int id)
@@ -258,7 +258,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
             return customer;
         }

@@ -12,5 +12,10 @@ namespace BusinessServiceLayer.Interfaces
         Task<IReadOnlyList<RoomInformationDTO>> GetRoomsWithTypeAsync();
         Task<RoomInformationDTO> GetRoomByIdWithTypeAsync(int id);
         Task<IReadOnlyList<RoomTypeDTO>> GetRoomTypesAsync();
+        Task<IReadOnlyList<RoomInformationDTO>> GetRoomInformationForManageAsync();
+        Task<RoomInformationDTO> GetRoomInformationByIdForManageAsync(int id);
+        Task CreateRoomAsync(RoomInformationToAddOrUpdateDTO room);
+        Task DeleteRoomAsync(int id);
+        Task UpdateRoomAsync(RoomInformationToAddOrUpdateDTO updatedRoom, int id);
     }
 }

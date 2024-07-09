@@ -42,7 +42,7 @@ namespace RepositoryLayer.Repositories
             }
             finally
             {
-                connection.Close();
+                await connection.CloseAsync();
             }
         }
     }
